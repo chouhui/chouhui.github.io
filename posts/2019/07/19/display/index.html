@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Category Archive 测试">
-        <meta name="keywords" content="">
+        <meta name="description" content="使用Pelican的心得 第一次使用Pelican搭建博客，放在GitHub Pages上，填了一些坑，写在这里。安装，快速使用这里就不谈了，说一下博客主题的使用以及如何放到GitHub Pages上展示。 我用的是nest。克隆到本地根目录下，再添加配置到pelicanconf.py，配置详情在上面的链接中，直接复制就行。然后你根据自己的需求再去修改配置中的变量名。...">
+        <meta name="keywords" content="pelican">
         <link rel="icon" href="/favicon.ico">
 
-        <title>Category Archive 测试 - Czj</title>
+        <title>初次使用Pelican - Czj's 博客</title>
 
         <!-- Stylesheets -->
         <link href="/theme/css/all.min.css" rel="stylesheet">
@@ -39,25 +39,32 @@
                         <a class="pull-left" href="/">MyBlog</a>
                     </div>
                     <div class="nav pull-right">
-                                <a href="/">主页</a>
+                                <a href="/">首页</a>
                                 <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
                     </div>
                 </div>
             </div>
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title text-uppercase">Category : 测试</h1>
+                      <h1 class="header-title">初次使用Pelican</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-07-19, 分类:  <a href="/category/pelican.html">Pelican</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Category Archive "测试"</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/pelican.html">pelican</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -65,16 +72,18 @@
 
 
         <!-- Content -->
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="/category/ce-shi.html">测试</a></h2>
-            <dl class="dl-horizontal">
-            	<dt>2019-07-18</dt>
-            	<dd><a href="/hello-world.html">这是第一篇技术博客</a></dd>
-            	<dt>2019-07-18</dt>
-            	<dd><a href="/hello-world1.html">这是第一篇技术博客</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h1>使用Pelican的心得</h1>
+<p>第一次使用Pelican搭建博客，放在GitHub Pages上，填了一些坑，写在这里。安装，快速使用这里就不谈了，说一下博客主题的使用以及如何放到GitHub Pages上展示。</p>
+<p>我用的是<a href="https://github.com/molivier/nest/tree/18aa1345f70219c00704848d321daf45c2f50ba7">nest</a>。克隆到本地根目录下，再添加配置到pelicanconf.py，配置详情在上面的链接中，直接复制就行。然后你根据自己的需求再去修改配置中的变量名。</p>
+<p>Pelican中比较重要的是content目录和output目录。content的目录里放的是你在本地写的blog file和image，使用<code>pelican content</code>将content目录里的文件渲染成html文件。还有一点是如果在content目录里还有目录，则在使用了上述命令后，output目录中也会出现对应的目录。所以你可以手动在content建立子目录，可以有条理的存放渲染后的html文件。
+<img alt="" src="/images/first_use/content.png">
+<img alt="" src="/images/first_use/posts.png">
+<img alt="" src="/images/first_use/url.png"></p>
+<p>如果要在GitHub Pages上展示，就在GitHub里建个仓库，名字为{username}/github.io。接着在本地output目录里git remote下。之后更新博文的时候，在content目录里写好文章，使用<code>pelican content</code> 命令渲染，在output目录里提交就好了。</p>
+
+
+        
     </div>
         <!-- /Content --> 
 
@@ -94,7 +103,6 @@
                         <div class="footer-title">Social</div>
                         <ul class="list-unstyled">
                             <li><a href="#" target="_blank">You can add links in your config file</a></li>
-                            <li><a href="#" target="_blank">Another social link</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -103,7 +111,6 @@
                             <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
                             <li><a href="http://python.org/" target="_blank">Python.org</a></li>
                             <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
-                            <li><a href="#" target="_blank">You can modify those links in your config file</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
