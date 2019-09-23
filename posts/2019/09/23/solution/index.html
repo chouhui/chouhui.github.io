@@ -88,70 +88,70 @@
 5 var_dump("admin1"==0) //true
 6 var_dump("0e123456"=="0e4456789"); //true 
 7 ?&gt;  //上述代码可自行测试</p>
-<div class="highlight"><pre><span></span>
+<div class="highlight"><pre><span></span><span class="err">```</span><span class="n">php</span><span class="w"></span>
+<span class="mi">1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;1abc&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="k">true</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;abcd&#39;</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"> </span>
+<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;42.0&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;000042.00&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;0x000000002A&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="ss">&quot;10&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;1e1&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;0000000004.2E+1&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;42.0e+000000&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+
+<span class="o">[</span><span class="n">false</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">NULL</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;&#39;</span><span class="o">]</span><span class="w"></span>
+<span class="k">NULL</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 </pre></div>
 
 
-<p>1 == '1abc' // true
-true == 'abcd'  // true 
-"42" == "42.0" // true
-"42" == "000042.00" // true
-"42" == "0x000000002A" // true
-"10" == "1e1" // true
-"42" == "0000000004.2E+1" // true
-"42" == "42.0e+000000" // true</p>
-<p>[false] == [0] == [NULL] == ['']
-NULL == false == 0</p>
-<div class="highlight"><pre><span></span><span class="o">```</span><span class="n">php</span>
-<span class="s1">&#39;0.999999999999999999999&#39;</span> <span class="o">==</span> <span class="mi">1</span>
+<div class="highlight"><pre><span></span><span class="x">&#39;0.999999999999999999999&#39; == 1</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
-<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0e1&#39;</span>
-<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0E1&#39;</span>
-<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39; 01e3&#39;</span>
-<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;01e3&#39;</span>
-<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
-<span class="s1">&#39;010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
-<span class="s1">&#39;010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;01e3&#39;</span>
-<span class="s1">&#39;10&#39;</span> <span class="o">==</span> <span class="s1">&#39;010&#39;</span>
-<span class="s1">&#39;10.0&#39;</span> <span class="o">==</span> <span class="s1">&#39;10&#39;</span>
-<span class="s1">&#39;10&#39;</span> <span class="o">==</span> <span class="s1">&#39;00000000010&#39;</span>
-<span class="s1">&#39;12345678&#39;</span> <span class="o">==</span> <span class="s1">&#39;00000000012345678&#39;</span>
-<span class="s1">&#39;0010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
-<span class="s1">&#39;123000&#39;</span> <span class="o">==</span> <span class="s1">&#39;123e3&#39;</span>
-<span class="s1">&#39;123000e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;123e5&#39;</span>
+<span class="x"># true in PHP 4.3.0+</span>
+<span class="x">&#39;0e0&#39; == &#39;0e1&#39;</span>
+<span class="x">&#39;0e0&#39; == &#39;0E1&#39;</span>
+<span class="x">&#39;10e2&#39; == &#39; 01e3&#39;</span>
+<span class="x">&#39;10e2&#39; == &#39;01e3&#39;</span>
+<span class="x">&#39;10e2&#39; == &#39;1e3&#39;</span>
+<span class="x">&#39;010e2&#39; == &#39;1e3&#39;</span>
+<span class="x">&#39;010e2&#39; == &#39;01e3&#39;</span>
+<span class="x">&#39;10&#39; == &#39;010&#39;</span>
+<span class="x">&#39;10.0&#39; == &#39;10&#39;</span>
+<span class="x">&#39;10&#39; == &#39;00000000010&#39;</span>
+<span class="x">&#39;12345678&#39; == &#39;00000000012345678&#39;</span>
+<span class="x">&#39;0010e2&#39; == &#39;1e3&#39;</span>
+<span class="x">&#39;123000&#39; == &#39;123e3&#39;</span>
+<span class="x">&#39;123000e2&#39; == &#39;123e5&#39;</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span><span class="o">+</span>
-<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span>
-<span class="s1">&#39;608E-4234&#39;</span> <span class="o">==</span> <span class="s1">&#39;272E-3063&#39;</span>
+<span class="x"># true in 5.2.1+</span>
+<span class="x"># false in PHP 4.3.0 - 5.2.0</span>
+<span class="x">&#39;608E-4234&#39; == &#39;272E-3063&#39;</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="n">x</span>
-<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
-<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x0&#39;</span>
-<span class="s1">&#39;0xABC&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xabc&#39;</span>
-<span class="s1">&#39;0xABCdef&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xabcDEF&#39;</span>
-<span class="s1">&#39;000000e1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x000000&#39;</span>
-<span class="s1">&#39;0xABFe1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xABFE1&#39;</span>
-<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39;0Xe&#39;</span>
-<span class="s1">&#39;0xABCDEF&#39;</span> <span class="o">==</span> <span class="s1">&#39;11259375&#39;</span>
-<span class="s1">&#39;0xABCDEF123&#39;</span> <span class="o">==</span> <span class="s1">&#39;46118400291&#39;</span>
-<span class="s1">&#39;0x1234AB&#39;</span> <span class="o">==</span> <span class="s1">&#39;1193131&#39;</span>
-<span class="s1">&#39;0x1234Ab&#39;</span> <span class="o">==</span> <span class="s1">&#39;1193131&#39;</span>
+<span class="x"># true in PHP 4.3.0 - 5.6.x</span>
+<span class="x"># false in 7.0.0+</span>
+<span class="x">&#39;0e0&#39; == &#39;0x0&#39;</span>
+<span class="x">&#39;0xABC&#39; == &#39;0xabc&#39;</span>
+<span class="x">&#39;0xABCdef&#39; == &#39;0xabcDEF&#39;</span>
+<span class="x">&#39;000000e1&#39; == &#39;0x000000&#39;</span>
+<span class="x">&#39;0xABFe1&#39; == &#39;0xABFE1&#39;</span>
+<span class="x">&#39;0xe&#39; == &#39;0Xe&#39;</span>
+<span class="x">&#39;0xABCDEF&#39; == &#39;11259375&#39;</span>
+<span class="x">&#39;0xABCDEF123&#39; == &#39;46118400291&#39;</span>
+<span class="x">&#39;0x1234AB&#39; == &#39;1193131&#39;</span>
+<span class="x">&#39;0x1234Ab&#39; == &#39;1193131&#39;</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="n">x</span>
-<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
-<span class="s1">&#39;0xABCdef&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0xabcDEF&#39;</span>
-<span class="s1">&#39;1e1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xa&#39;</span>
-<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0Xe&#39;</span>
-<span class="s1">&#39;0x123&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0x123&#39;</span>
+<span class="x"># true in PHP 4.3.0 - 4.3.9, 5.2.1 - 5.6.x</span>
+<span class="x"># false in PHP 4.3.10 - 4.4.9, 5.0.3 - 5.2.0, 7.0.0+</span>
+<span class="x">&#39;0xABCdef&#39; == &#39; 0xabcDEF&#39;</span>
+<span class="x">&#39;1e1&#39; == &#39;0xa&#39;</span>
+<span class="x">&#39;0xe&#39; == &#39; 0Xe&#39;</span>
+<span class="x">&#39;0x123&#39; == &#39; 0x123&#39;</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span>
-<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">26</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
-<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x0a&#39;</span>
+<span class="x"># true in PHP 4.3.10 - 4.4.9, 5.0.3 - 5.2.0</span>
+<span class="x"># false in PHP 4.3.0 - 4.3.9, 5.0.0 - 5.0.2, 5.2.1 - 5.6.26, 7.0.0+</span>
+<span class="x">&#39;0e0&#39; == &#39;0x0a&#39;</span>
 
-<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span>
-<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">26</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
-<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0Xe.&#39;</span>
+<span class="x"># true in PHP 4.3.0 - 4.3.9, 5.0.0 - 5.0.2</span>
+<span class="x"># false in PHP 4.3.10 - 4.4.9, 5.0.3 - 5.6.26, 7.0.0+</span>
+<span class="x">&#39;0xe&#39; == &#39; 0Xe.&#39;</span>
 </pre></div>
 
 
