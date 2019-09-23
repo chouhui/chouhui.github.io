@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="PHP弱类型 php是一门弱类型语音，不需要声明变量的类型，会根据变量的值自动把转换成正确的类型。 数字比较缺陷 （类型强制转换） PHP中==和===的区别。 == 会先将变量转换成相同类型，再去比较 === 会先比较变量的类型，再去比较值 数值和字符串或涉及到数字的字符串比较时，会将字符串转换成数字 ```php 1 &lt;?php 2 var_dump(&#34;admin&#34;==0);...">
+        <meta name="description" content="PHP弱类型 php是一门弱类型语音，不需要声明变量的类型，会根据变量的值自动把转换成正确的类型。 数字比较缺陷 （类型强制转换） PHP中==和===的区别。 == 会先将变量转换成相同类型，再去比较 === 会先比较变量的类型，再去比较值 数值和字符串或涉及到数字的字符串比较时，会将字符串转换成数字 1 &lt;?php 2 var_dump(&#34;admin&#34;==0); //true 3...">
         <meta name="keywords" content="PHP">
         <link rel="icon" href="/favicon.ico">
 
@@ -80,26 +80,27 @@
 <p>== 会先将变量转换成相同类型，再去比较</p>
 <p>=== 会先比较变量的类型，再去比较值</p>
 <p>数值和字符串或涉及到数字的字符串比较时，会将字符串转换成数字</p>
-<p>```php 
-1 &lt;?php
-2 var_dump("admin"==0);  //true
-3 var_dump("1admin"==1); //true
-4 var_dump("admin1"==1) //false
-5 var_dump("admin1"==0) //true
-6 var_dump("0e123456"=="0e4456789"); //true 
-7 ?&gt;  //上述代码可自行测试</p>
-<div class="highlight"><pre><span></span><span class="err">```</span><span class="n">php</span><span class="w"></span>
-<span class="mi">1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;1abc&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="k">true</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;abcd&#39;</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"> </span>
-<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;42.0&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;000042.00&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;0x000000002A&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="ss">&quot;10&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;1e1&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;0000000004.2E+1&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
-<span class="ss">&quot;42&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;42.0e+000000&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="x">1 </span><span class="cp">&lt;?php</span>
+<span class="mi">2</span> <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;admin&quot;</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">//true</span>
+<span class="mi">3</span> <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;1admin&quot;</span><span class="o">==</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//true</span>
+<span class="mi">4</span> <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;admin1&quot;</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="c1">//false</span>
+<span class="mi">5</span> <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;admin1&quot;</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="c1">//true</span>
+<span class="mi">6</span> <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;0e123456&quot;</span><span class="o">==</span><span class="s2">&quot;0e4456789&quot;</span><span class="p">);</span> <span class="c1">//true </span>
+<span class="mi">7</span> <span class="cp">?&gt;</span><span class="x">  //上述代码可自行测试</span>
+</pre></div>
 
-<span class="o">[</span><span class="n">false</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">NULL</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;&#39;</span><span class="o">]</span><span class="w"></span>
-<span class="k">NULL</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<div class="highlight"><pre><span></span><span class="x">1 == &#39;1abc&#39; // true</span>
+<span class="x">true == &#39;abcd&#39;  // true </span>
+<span class="x">&quot;42&quot; == &quot;42.0&quot; // true</span>
+<span class="x">&quot;42&quot; == &quot;000042.00&quot; // true</span>
+<span class="x">&quot;42&quot; == &quot;0x000000002A&quot; // true</span>
+<span class="x">&quot;10&quot; == &quot;1e1&quot; // true</span>
+<span class="x">&quot;42&quot; == &quot;0000000004.2E+1&quot; // true</span>
+<span class="x">&quot;42&quot; == &quot;42.0e+000000&quot; // true</span>
+
+<span class="x">[false] == [0] == [NULL] == [&#39;&#39;]</span>
+<span class="x">NULL == false == 0</span>
 </pre></div>
 
 
@@ -339,39 +340,34 @@
 </tbody>
 </table>
 <p>一道经典题目</p>
-<p>```php 
-&lt;?php 
-error_reporting(0); 
-include_once('flag.php'); 
-highlight_file('index.php');  </p>
-<p>$md51 = md5('QNKCDZO'); 
-$a = $_GET['b']; 
-$md52 = md5($a); 
-if(isset($a)){ 
-if ($a != 'QNKCDZO' &amp;&amp; $md51 == $md52) { 
-    echo $flag; 
-} else { 
-    echo "false!!!"; 
-}}</p>
-<div class="highlight"><pre><span></span><span class="o">###</span> <span class="n">md5和sha1的函数缺陷</span>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span> 
+<span class="nb">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+<span class="k">include_once</span><span class="p">(</span><span class="s1">&#39;flag.php&#39;</span><span class="p">);</span> 
+<span class="nb">highlight_file</span><span class="p">(</span><span class="s1">&#39;index.php&#39;</span><span class="p">);</span>  
 
-<span class="err">这两个函数对数组加密时，会返回一个</span><span class="k">null</span><span class="err">。</span><span class="n">post和get方法传递数组用a</span><span class="p">[]</span><span class="o">=</span><span class="mi">1</span>
-
-<span class="p">[</span><span class="err">例题</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">link</span><span class="p">.</span><span class="n">jianshu</span><span class="p">.</span><span class="n">com</span><span class="o">/?</span><span class="n">t</span><span class="o">=</span><span class="n">http</span><span class="o">%</span><span class="mi">3</span><span class="n">A</span><span class="o">%</span><span class="mi">2</span><span class="n">F</span><span class="o">%</span><span class="mi">2</span><span class="n">Fchinalover</span><span class="p">.</span><span class="n">sinaapp</span><span class="p">.</span><span class="n">com</span><span class="o">%</span><span class="mi">2</span><span class="n">Fweb17</span><span class="o">%</span><span class="mi">2</span><span class="n">Findex</span><span class="p">.</span><span class="n">php</span><span class="p">)</span>
+<span class="nv">$md51</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="s1">&#39;QNKCDZO&#39;</span><span class="p">);</span> 
+<span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span> 
+<span class="nv">$md52</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span> 
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$a</span><span class="p">)){</span> 
+<span class="k">if</span> <span class="p">(</span><span class="nv">$a</span> <span class="o">!=</span> <span class="s1">&#39;QNKCDZO&#39;</span> <span class="o">&amp;&amp;</span> <span class="nv">$md51</span> <span class="o">==</span> <span class="nv">$md52</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">echo</span> <span class="nv">$flag</span><span class="p">;</span> 
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+    <span class="k">echo</span> <span class="s2">&quot;false!!!&quot;</span><span class="p">;</span> 
+<span class="p">}}</span>
+</pre></div>
 
 
-
-<span class="o">###</span> <span class="n">intval</span><span class="p">()</span><span class="err">的缺陷</span>
-
-<span class="o">**</span><span class="n">intval</span><span class="p">()</span><span class="o">**</span> <span class="err">函数通过使用指定的进制</span> <span class="n">base</span> <span class="err">转换（默认是十进制），返回变量</span> <span class="n">var</span> <span class="err">的</span> <span class="nb">integer</span> <span class="err">数值。</span> <span class="n">intval</span><span class="p">()</span> <span class="err">不能用于</span> <span class="k">object</span><span class="err">，否则会产生</span> <span class="n">E_NOTICE</span> <span class="err">错误并返回</span> <span class="mi">1</span><span class="err">。</span>
-
-<span class="o">```</span><span class="n">php</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;3abcd&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">3</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">0</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="nb">array</span><span class="p">()));</span>                 <span class="o">//</span> <span class="mi">0</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="nb">array</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">));</span>     <span class="o">//</span> <span class="mi">1</span>
-<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;0x23333&#39;</span><span class="p">))</span>  <span class="o">//</span><span class="mi">0</span>
+<h3>md5和sha1的函数缺陷</h3>
+<p>这两个函数对数组加密时，会返回一个null。post和get方法传递数组用a[]=1</p>
+<p><a href="https://link.jianshu.com/?t=http%3A%2F%2Fchinalover.sinaapp.com%2Fweb17%2Findex.php">例题</a></p>
+<h3>intval()的缺陷</h3>
+<p><strong>intval()</strong> 函数通过使用指定的进制 base 转换（默认是十进制），返回变量 var 的 integer 数值。 intval() 不能用于 object，否则会产生 E_NOTICE 错误并返回 1。</p>
+<div class="highlight"><pre><span></span><span class="x">var_dump(intval(&#39;2&#39;)) // 2</span>
+<span class="x">var_dump(intval(&#39;3abcd&#39;)) // 3</span>
+<span class="x">var_dump(intval(&#39;abcd&#39;)) // 0</span>
+<span class="x">var_dump(intval(array()));                 // 0</span>
+<span class="x">var_dump(intval(array(&#39;foo&#39;, &#39;bar&#39;));     // 1</span>
+<span class="x">var_dump(intval(&#39;0x23333&#39;))  //0</span>
 </pre></div>
 
 
@@ -396,47 +392,46 @@ if ($a != 'QNKCDZO' &amp;&amp; $md51 == $md52) {
 </ul>
 <p>eregi跟ereg函数漏洞基本一样，区别在于<strong>ereg区分大小写</strong>(这里划重点，也是可以用来绕过的),eregi函数不区分大小写。</p>
 <p>经典题目</p>
-<p>```php 
-&lt;?php
-if (isset ($_GET['password'])) {
-    if (ereg ("^[a-zA-Z0-9]+$",$_GET['password']) === FALSE)  <br>
-       {
-        echo '<p>You password must be alphanumeric</p>';
-    }
-    else if (strlen($_GET['password']) &lt; 8 &amp;&amp; $_GET['password'] &gt; 9999999)
-    {
-        if (strpos ($_GET['password'], '<em>-</em>') != FALSE)
-        {
-            die('Flag: ' . $flag);
-        }
-        else
-        {
-            echo('<p><em>-</em> have not been found</p>');
-        }
-    }
-    else
-    {
-        echo '<p>Invalid password</p>';
-    }
-}
-?&gt;
-附：payload= 1e9%00<em>-</em></p>
-<div class="highlight"><pre><span></span>### <span class="k">strlen</span><span class="ss">()</span>缺陷
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span> <span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">ereg</span> <span class="p">(</span><span class="s2">&quot;^[a-zA-Z0-9]+$&quot;</span><span class="p">,</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span> <span class="o">===</span> <span class="k">FALSE</span><span class="p">)</span>    
+       <span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;&lt;p&gt;You password must be alphanumeric&lt;/p&gt;&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">8</span> <span class="o">&amp;&amp;</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9999999</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">strpos</span> <span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">],</span> <span class="s1">&#39;*-*&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="k">FALSE</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">die</span><span class="p">(</span><span class="s1">&#39;Flag: &#39;</span> <span class="o">.</span> <span class="nv">$flag</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="k">echo</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;*-* have not been found&lt;/p&gt;&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;&lt;p&gt;Invalid password&lt;/p&gt;&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">附：payload= 1e9%00*-*</span>
+</pre></div>
 
-这个函数也是<span class="nv">CTF</span>函数黑魔法中的经典函数，自我矛盾。用来进行判断长度，然后结合大小比较来进行出题。
 
-```<span class="nv">php</span>
-<span class="o">&lt;</span>?<span class="nv">php</span>
-@<span class="mh">$a</span> <span class="o">=</span> $<span class="nv">_GET</span>[<span class="s1">&#39;</span><span class="s">num</span><span class="s1">&#39;</span>]<span class="c1">;</span>
-<span class="k">if</span><span class="ss">(</span><span class="k">strlen</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">)</span><span class="o">&lt;</span><span class="mi">4</span> <span class="o">&amp;&amp;</span> <span class="mh">$a</span><span class="o">&gt;</span><span class="mi">10000</span><span class="ss">)</span>{
-    <span class="nv">echo</span> <span class="mh">$f</span><span class="nv">lag</span><span class="c1">;</span>
-}
-<span class="k">else</span>{
-    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">is too small</span><span class="s2">&quot;</span><span class="c1">;</span>
-}
-?<span class="o">&gt;</span>
+<h3>strlen()缺陷</h3>
+<p>这个函数也是CTF函数黑魔法中的经典函数，自我矛盾。用来进行判断长度，然后结合大小比较来进行出题。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="o">@</span><span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">];</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span> <span class="o">&amp;&amp;</span> <span class="nv">$a</span><span class="o">&gt;</span><span class="mi">10000</span><span class="p">){</span>
+    <span class="k">echo</span> <span class="nv">$flag</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&quot;is too small&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
 
-<span class="mi">1</span><span class="nv">e9</span>
+<span class="x">1e9</span>
 </pre></div>
 
 
