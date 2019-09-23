@@ -452,46 +452,45 @@
 
 
 <p>preg_match()函数还存在另一个问题，preg_match 函数用于进行正则表达式匹配，返回 pattern 的匹配次数，它的值将是 0 次（不匹配）或 1 次，因为 preg_match() 在第一次匹配后将会停止搜索。如果在进行正则表达式匹配的时候，没有限制字符串的开始和结束(^ 和 $)，则可以存在绕过的问题。</p>
-<p>```php 
-&lt;?php
-$ip = $_GET['ip']; // 可以绕过
-if(!preg_match("/(\d+).(\d+).(\d+).(\d+)/",$ip)) {
-  die('error');
-} else {
-  echo "Flag";
-}
-?&gt;// Flag</p>
-<p>payload: ip=127.0.0.1  abcdef</p>
-<div class="highlight"><pre><span></span>###  <span class="nv">is_numberic</span><span class="ss">()</span> 和 <span class="nv">trim</span><span class="ss">()</span> 函数的缺陷
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$ip</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">];</span> <span class="c1">// 可以绕过</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">preg_match</span><span class="p">(</span><span class="s2">&quot;/(\d+)\.(\d+)\.(\d+)\.(\d+)/&quot;</span><span class="p">,</span><span class="nv">$ip</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">die</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s2">&quot;Flag&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x">// Flag</span>
 
-<span class="nv">is_numberic</span><span class="ss">()</span> 检测变量是否是数字和数字字符串，返回<span class="nv">true</span>或<span class="nv">false</span>
-
-同时它默认<span class="mi">16</span>进制的字符串也为整型
-
-```<span class="nv">php</span>
-<span class="mi">16</span>进制的<span class="nv">abc</span><span class="o">=</span><span class="mi">0</span><span class="nv">x616263</span>
-<span class="o">&lt;</span>?<span class="nv">php</span>
-<span class="nv">header</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">content-type:text/html;charset=utf-8</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;</span>
-<span class="mh">$a</span><span class="o">=</span>$<span class="nv">_GET</span>[<span class="s1">&#39;</span><span class="s">num</span><span class="s1">&#39;</span>]<span class="c1">;</span>
-<span class="nv">var_dump</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">)</span><span class="c1">;</span>
-<span class="k">if</span><span class="ss">(</span><span class="nv">is_numeric</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">))</span>{
-    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">您输入的是数字</span><span class="s2">&quot;</span><span class="c1">;</span>
-}<span class="k">else</span>{
-    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">请输入合法字符</span><span class="s2">&quot;</span><span class="c1">;</span>
-}
-?<span class="o">&gt;</span>
-
-是数字
+<span class="x">payload: ip=127.0.0.1  abcdef</span>
+</pre></div>
 
 
-<span class="o">&lt;</span>?<span class="nv">php</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="mi">233333</span><span class="ss">)</span><span class="c1">;       // 1</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">233333</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;    // 1</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="mi">0</span><span class="nv">x233333</span><span class="ss">)</span><span class="c1">;    // 1</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">0x233333</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;    // 1</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">9e9</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;   // 1</span>
-<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">233333abc</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;  // 0</span>
-?<span class="o">&gt;</span>
+<h3>is_numberic() 和 trim() 函数的缺陷</h3>
+<p>is_numberic() 检测变量是否是数字和数字字符串，返回true或false</p>
+<p>同时它默认16进制的字符串也为整型</p>
+<div class="highlight"><pre><span></span><span class="x">16进制的abc=0x616263</span>
+<span class="cp">&lt;?php</span>
+<span class="nb">header</span><span class="p">(</span><span class="s1">&#39;content-type:text/html;charset=utf-8&#39;</span><span class="p">);</span>
+<span class="nv">$a</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">];</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">is_numeric</span><span class="p">(</span><span class="nv">$a</span><span class="p">)){</span>
+    <span class="k">echo</span> <span class="s2">&quot;您输入的是数字&quot;</span><span class="p">;</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&quot;请输入合法字符&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">是数字</span>
+
+
+<span class="cp">&lt;?php</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="mi">233333</span><span class="p">);</span>       <span class="c1">// 1</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="s1">&#39;233333&#39;</span><span class="p">);</span>    <span class="c1">// 1</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="mh">0x233333</span><span class="p">);</span>    <span class="c1">// 1</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="s1">&#39;0x233333&#39;</span><span class="p">);</span>    <span class="c1">// 1</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="s1">&#39;9e9&#39;</span><span class="p">);</span>   <span class="c1">// 1</span>
+<span class="k">echo</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="s1">&#39;233333abc&#39;</span><span class="p">);</span>  <span class="c1">// 0</span>
+<span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
 
