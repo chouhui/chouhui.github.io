@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="黑客大曝光中的概念以及工具 Wget，Teleport Pro：镜像网站工具 ghdb：Google Hacking Database， 用于Web信息挖掘的Google搜索字符串 自动化工具SiteDigger FOCA：识别分析存在文件中的元数据 WHOIS：域相关信息。iana站点查 .com域，再去域名注册商去查具体的注册人细节信息。 DNS：ip相关信息地方...">
+        <meta name="description" content="黑客大曝光中的概念以及工具 踩点 Wget，Teleport Pro：镜像网站工具 ghdb：Google Hacking Database， 用于Web信息挖掘的Google搜索字符串 自动化工具SiteDigger FOCA：识别分析存在文件中的元数据 WHOIS：域相关信息。iana站点查 .com域，再去域名注册商去查具体的注册人细节信息。 DNS：ip相关信息地方...">
         <meta name="keywords" content="tool">
         <link rel="icon" href="/favicon.ico">
 
@@ -74,12 +74,34 @@
         <!-- Content -->
     <div class="container content">
         <h1>黑客大曝光中的概念以及工具</h1>
+<h3>踩点</h3>
 <p>Wget，Teleport Pro：镜像网站工具</p>
 <p>ghdb：Google Hacking Database， 用于Web信息挖掘的Google搜索字符串 自动化工具SiteDigger</p>
 <p>FOCA：识别分析存在文件中的元数据</p>
 <p>WHOIS：域相关信息。iana站点查  .com域，再去域名注册商去查具体的注册人细节信息。</p>
 <p>DNS：ip相关信息地方</p>
 <p>注入攻击：关键条件，用户控制输入，代码拼接了输入的数据</p>
+<p>traceroute: 查看ip数据包从一台主机依次经由一系列主机到达目的地的传输路径。可以发出UDP或ICMP数据包。</p>
+<h3>扫描</h3>
+<p>nmap：ARP，ICMP，UDP，TCP主机发现。-PR ARP扫描，-sn 不执行端口扫描，不仅发送ICMP ER数据包，root账户还会执行ARP ping，发送ICMP TS对TCP 80，443端口扫描。-sS -p 22 —open 直接端口探测</p>
+<ul>
+<li>端口扫描的目的：</li>
+<li>
+<ol>
+<li>确定目标系统上运行的TCP和UDP服务</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>确定目标系统上的操作系统类型</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>确定目标系统上负责提供特定服务的应用程序名称和版本</li>
+</ol>
+</li>
+</ul>
 
 
         
