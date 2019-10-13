@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Tag archives PHP">
-        <meta name="keywords" content="">
+        <meta name="description" content="bugku_var1_wp flag In the variable ! &lt;?php error_reporting(0); include &#34;flag1.php&#34;; highlight_file(__file__); if(isset($_GET[&#39;args&#39;])){ $args = $_GET[&#39;args&#39;]; if(!preg_match(&#34;/^\w+$/&#34;,$args)){...">
+        <meta name="keywords" content="wp">
         <link rel="icon" href="/favicon.ico">
 
-        <title>Tag archives PHP - Czj's 博客</title>
+        <title>bugku_var1_wp - Czj's 博客</title>
 
         <!-- Stylesheets -->
         <link href="/theme/css/all.min.css" rel="stylesheet">
@@ -48,17 +48,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title text-uppercase">Tag : #PHP</h1>
+                      <h1 class="header-title">bugku_var1_wp</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-09-26, 分类:  <a href="/category/ctf.html">Ctf</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Tag archives #PHP</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/wp.html">wp</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -66,18 +72,44 @@
 
 
         <!-- Content -->
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="/tag/php.html">PHP</a></h2>
-            <dl class="dl-horizontal">
-            	<dt>2019-10-01</dt>
-            	<dd><a href="/posts/2019/10/01/unknown/">00截断原理</a></dd>
-            	<dt>2019-09-24</dt>
-            	<dd><a href="/posts/2019/09/24/unknown/">文件包含漏洞</a></dd>
-            	<dt>2019-09-23</dt>
-            	<dd><a href="/posts/2019/09/23/solution/">PHP弱类型</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h1>bugku_var1_wp</h1>
+<div class="highlight"><pre><span></span><span class="x">flag In the variable ! </span><span class="cp">&lt;?php</span>  
+
+<span class="nb">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">include</span> <span class="s2">&quot;flag1.php&quot;</span><span class="p">;</span>
+<span class="nb">highlight_file</span><span class="p">(</span><span class="no">__file__</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">])){</span>
+    <span class="nv">$args</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">preg_match</span><span class="p">(</span><span class="s2">&quot;/^\w+$/&quot;</span><span class="p">,</span><span class="nv">$args</span><span class="p">)){</span>
+        <span class="k">die</span><span class="p">(</span><span class="s2">&quot;args error!&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">eval</span><span class="p">(</span><span class="s2">&quot;var_dump($</span><span class="si">$args</span><span class="s2">);&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">array(7) { [&quot;GLOBALS&quot;]=&gt; *RECURSION* [&quot;_POST&quot;]=&gt; array(0) { } [&quot;_GET&quot;]=&gt; array(1) { [&quot;args&quot;]=&gt; string(7) &quot;GLOBALS&quot; } [&quot;_COOKIE&quot;]=&gt; array(0) { } [&quot;_FILES&quot;]=&gt; array(0) { } [&quot;ZFkwe3&quot;]=&gt; string(38) &quot;flag{92853051ab894a64f7865cf3c2128b34}&quot; [&quot;args&quot;]=&gt; string(7) &quot;GLOBALS&quot; }</span>
+</pre></div>
+
+
+<p>刚看到这道题时，看见了perg_match()函数，以为要绕过正则。试了半天行不通。</p>
+<p>重新看代码，发现<code>$$args</code> ，感觉在暗示些什么，但也没放在心上。。。</p>
+<p>后来去看大佬的wp，发现要传递PHP的全局变量。</p>
+<p>PHP有九个全局变量</p>
+<ul>
+<li>$_POST [用于接收post提交的数据]</li>
+<li>$_GET [用于获取url地址栏的参数数据]</li>
+<li>$_FILES [用于文件就收的处理img 最常见]</li>
+<li>$_COOKIE [用于获取与setCookie()中的name 值]</li>
+<li>$_SESSION [用于存储session的值或获取session中的值]</li>
+<li>$_REQUEST [具有get,post的功能，但比较慢]</li>
+<li>SERVER[是预定义服务器变量的一种，所有SERVER[是预定义服务器变量的一种，所有_SERVER [是预定义服务器变量的一种，所有_SERVER开头的都</li>
+<li>$GLOBALS [一个包含了全部变量的全局组合数组]</li>
+<li>$_ENV [ 是一个包含服务器端环境变量的数组。它是PHP中一个超级全局变量，我们可以在PHP 程序的任何地方直接访问它]</li>
+</ul>
+<p>发现 GLOBALS可以发到flag</p>
+
+
+        
     </div>
         <!-- /Content --> 
 
