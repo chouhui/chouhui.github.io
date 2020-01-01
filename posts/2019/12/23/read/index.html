@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="深入理解浏览器解析机制和XSS向量编码 参考 在浏览器解析一篇文档的时候，会有HTML解析器，URL解析器，JS解析器。每个解析器负责编码解码它们对应的代码。 HTML解析器 文档解析何时结束，新token何时建立。...">
+        <meta name="keywords" content="xss">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>深入理解浏览器解析机制和XSS向量编码 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">深入理解浏览器解析机制和XSS向量编码</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-12-23, 分类:  <a href="/category/summary.html">Summary</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/xss.html">xss</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>深入理解浏览器解析机制和XSS向量编码</h1>
+<p><a href=http://bobao.360.cn/learning/detail/292.html>参考</a></p>
+<p>在浏览器解析一篇文档的时候，会有HTML解析器，URL解析器，JS解析器。每个解析器负责编码解码它们对应的代码。</p>
+<h3>HTML解析器</h3>
+<p>文档解析何时结束，新token何时建立。</p>
+<p>一个HTML解析器作为一个状态机，它从输入流中获取字符并按照转换规则转换到另一种状态。在解析过程中，任何时候它只要遇到一个'&lt;'符号（后面没有跟'/'符号）就会进入“标签开始状态(Tag open state)”。然后转变到“标签名状态(Tag name state)”，“前属性名状态(before attribute name state)”......最后进入“数据状态(Data state)”并释放当前标签的token。当解析器处于“数据状态(Data state)”时，它会继续解析，每当发现一个完整的标签，就会释放出一个token。</p>
+<p>这里有三种情况可以对&amp;#形式的实体编码进行解码，“数据状态中的字符引用”，“RCDATA状态中的字符引用”和“属性值状态中的字符引用”</p>
+<p>字符引用包括“字符值引用”和“字符实体引用”。在上述HTML例子中，'&lt;'对应的字符值引用为'&#60;'，对应的字符实体引用为‘&lt;’。字符实体引用也被叫做“实体引用”或“实体”。）</p>
+<p><code>&lt;div&gt;&amp;#60;img src=x onerror=alert(4)&amp;#62;&lt;/div&gt;</code></p>
+<p>在div标签解析后，解析器处于数据状态，这时遇到&amp;#，它会知道这是数据状态中的字符引用，因此会消耗一个字符引用（例如“&#60;”）并释放出对应字符的token。答案是脚本并不会被执行。原因是解析器在解析这个字符引用后不会转换到“标签开始状态”。正因为如此，就不会建立新标签。因此，我们能够利用字符实体编码这个行为来转义用户输入的数据从而确保用户输入的数据只能被解析成“数据”。</p>
+<p><code>&lt;a href="&amp;#x6a;&amp;#x61;&amp;#x76;&amp;#x61;&amp;#x73;&amp;#x63;&amp;#x72;&amp;#x69;&amp;#x70;&amp;#x74;:%61%6c%65%72%74%28%32%29"&gt;</code></p>
+<p>在这里，HTML解析器解析了文档，创建了标签token，并且对href属性里的字符实体进行了解码。然后，当HTML解析器工作完成后，URL解析器开始解析href属性值里的链接。在这时，“javascript”协议已经被解码，它能够被URL解析器正确识别。然后URL解析器继续解析链接剩下的部分。由于是“javascript”协议，JavaScript解析器开始工作并执行这段代码，这就是为什么问题2中的代码能够被执行。</p>
+<p><code>&lt;textarea&gt;&amp;#60;script&amp;#62;alert(5)&amp;#60;/script&amp;#62;textarea&gt;</code></p>
+<p>“RCDATA状态中的字符引用”。这意味着在<code>&lt;textarea&gt;</code>和<code>&lt;title&gt;</code>标签中的字符引用会被HTML解析器解码。这里要再提醒一次，在解析这些字符引用的过程中不会进入“标签开始状态”。</p>
+<h3>URL解析器</h3>
+<p>首先，URL资源类型必须是ASCII字母（U+0041-U+005A || U+0061-U+007A），不然就会进入“无类型”状态。例如，你不能对协议类型进行任何的编码操作，不然URL解析器会认为它无类型。</p>
+<p><code>&lt;a href="%6a%61%76%61%73%63%72%69%70%74:%61%6c%65%72%74%28%31%29"&gt;&lt;/a&gt;</code></p>
+<p>这就是为什么代码不能被执行。因为URL中被编码的“javascript”没有被解码，因此不会被URL解析器识别。</p>
+<p>其次，URL编码过程使用UTF-8编码类型来编码每一个字符。如果你尝试着将URL链接做了其他编码类型的编码，URL解析器就可能不会正确识别。</p>
+<h3>JavaScript解析器</h3>
+<p>“script”块有个有趣的属性：在块中的字符引用并不会被解析和解码。</p>
+<p>那像“\uXXXX”（例如\u0000,\u000A）这样的字符呢，JavaScript会解析这些字符来执行吗？简单的说：视情况而定。具体的说就是要看被编码的序列到底是哪部分。首先，像\uXXXX一样的字符被称作Unicode转义序列。从上下文来看，你可以将转义序列放在3个部分：字符串中，标识符名称中和控制字符中。</p>
+<p>字符串中：当Unicode转义序列存在于字符串中时，它只会被解释为正规字符，而不是单引号，双引号或者换行符这些能够打破字符串上下文的字符。这项内容清楚地写在ECMAScript中。因此，Unicode转义序列将永远不会破环字符串上下文，因为它们只能被解释成字符串常量。</p>
+<p>标识符名称中：当Unicode转义序列出现在标识符名称中时，它会被解码并解释为标识符名称的一部分，例如函数名，属性名等等。如果我们深入研究JavaScript细则，可以看到如下内容：</p>
+<p><code>&lt;script&gt;\u0061\u006c\u0065\u0072\u0074(10);&lt;/script&gt;</code>   成功</p>
+<p><code>&lt;script&gt;\u0061\u006c\u0065\u0072\u0074\u0028\u0031\u0031\u0029&lt;/script&gt;</code>  失败</p>
+<p>“Unicode转义序列（如\u000A\u000B）同样被允许用在标识符名称中，被当作名称中的一个字符。而将'\'符号前置在Unicode转义序列串（如\u000A000B000C）并不能作为标识符名称中的字符。将Unicode转义序列串放在标识符名称中是非法的。”</p>
+<p>控制字符:当用Unicode转义序列来表示一个控制字符时，例如单引号、双引号、圆括号等等，它们将不会被解释成控制字符，而仅仅被解码并解析为标识符名称或者字符串常量。如果你去看ECMAScript的语法，就会发现没有一处会用Unicode转义序列来当作控制字符。例如，如果解析器正在解析一个函数调用语句，圆括号部分必须为“(”和“)”，而不能是\u0028和\u0029。</p>
+<h3>解析流</h3>
+<p>在讨论过HTML，URL和JavaScript解析之后，读者应该能够对“什么会被解码”、“在什么地方被解码”和“如何被解码”这几件事有了清楚的认识。现在，另一个重要的概念是所有这些是如何协同工作的？在网页中有很多地方需要多个解析器来协同工作。因此，对于解码和转义问题，我们将简要的讨论浏览器如何解析一篇文档。</p>
+<p>当浏览器从网络堆栈中获得一段内容后，触发HTML解析器来对这篇文档进行词法解析。在这一步中字符引用被解码。在词法解析完成后，DOM树就被创建好了，JavaScript解析器会介入来对内联脚本进行解析。在这一步中Unicode转义序列和Hex转义序列被解码。同时，如果浏览器遇到需要URL的上下文，URL解析器也会介入来解码URL内容。在这一步中URL解码操作被完成。由于URL位置不同，URL解析器可能会在JavaScript解析器之前或之后进行解析。考虑如下两种情况</p>
+<div class="highlight"><pre><span></span><span class="n">Example</span> <span class="n">A</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="ss">&quot;UserInput&quot;</span><span class="o">&gt;</span><span class="n">a</span><span class="o">&gt;</span>
+<span class="n">Example</span> <span class="n">B</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=#</span>  <span class="n">onclick</span><span class="o">=</span><span class="ss">&quot;window.open(&#39;UserInput&#39;)&quot;</span><span class="o">&gt;</span><span class="n">a</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>在例A中，HTML解析器将首先开始工作，并对UserInput中的字符引用进行解码。然后URL解析器开始对href值进行URL解码。最后，如果URL资源类型是JavaScript，那么JavaScript解析器会进行Unicode转义序列和Hex转义序列的解码。再之后，解码的脚本会被执行。因此，这里涉及三轮解码，顺序是HTML，URL和JavaScript。</p>
+<p>在例B中，HTML解析器首先工作。然而接下来，JavaScript解析器开始解析在onclick事件处理器中的值。这是因为在onclick事件处理器中是script的上下文。当这段JavaScript被解析并被执行的时候，它执行的是“window.open()”操作，其中的参数是URL的上下文。在此时，URL解析器开始对UserInput进行URL解码并把结果回传给JavaScript引擎。因此这里一共涉及三轮解码，顺序是HTML，JavaScript和URL。</p>
+<p>有没有可能解码次数超过3轮呢？考虑一下这个例子</p>
+<div class="highlight"><pre><span></span><span class="n">Example</span>  <span class="k">C</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="ss">&quot;javascript:window.open(&#39;UserInput&#39;)&quot;</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>例C与例A很像，但不同的是在UserInput前多了window.open()操作。因此，对UserInput多了一次额外的URL解码操作。总的来说，四轮解码操作被完成，顺序是HTML，URL，JavaScript和URL。</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

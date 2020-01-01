@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="安全攻防技能30讲 安全本质： ​ CIA三元组，基本原则。机密性（Confidentiality），完整性（Integrity），可用性（Availability）。 ​ 机密性：确保数据只被授权的主体访问，不被任何未授权的主体访问。相关概念有：授权，访问控制机制，安全模型，数据的加密，混淆，隔离，隐藏。 ​...">
+        <meta name="keywords" content="security">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>安全攻防技能30讲 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">安全攻防技能30讲</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-12-11, 分类:  <a href="/category/summary.html">Summary</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/security.html">security</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>安全攻防技能30讲</h1>
+<h2>安全本质：</h2>
+<p>​       CIA三元组，基本原则。机密性（Confidentiality），完整性（Integrity），可用性（Availability）。</p>
+<p>​       机密性：确保数据只被授权的主体访问，不被任何未授权的主体访问。相关概念有：授权，访问控制机制，安全模型，数据的加密，混淆，隔离，隐藏。</p>
+<p>​       完整性：确保数据只被授权的主体进行授权的修改。更加强调修改。利用加密，签名来使得数据的完整性变得可验证。对数据的篡改。</p>
+<p>​       可用性：确保数据能够被授权的主体访问到。备份，海量数据，Dos。</p>
+<p>​       机密性，用户的登录，通信过程的加密，数据的可见性；完整性，日志记录，数据的篡改；可用性，高并发。</p>
+<p>​       </p>
+<h2>安全原则：</h2>
+<p>​       黄金法则：认证（Authentication），授权（Authorization），审计（Audit）</p>
+<p>​       认证包含着识别和认证，审计包含着审计和问责。</p>
+<p>​       识别和认证：你是谁，你是你。你知道什么，你有什么，你是什么。</p>
+<p>​       授权：自动访问控制，强制访问控制</p>
+<p>​       审计和问责：在被授权后，安全要检查你干了什么。事后安全还会提供无法抵赖的证据。</p>
+<h2>密码学基础</h2>
+<p>​       对称加密算法：DES(56位， 废弃)，AES(128，192，256位)，SM1(128,未公开),SM4(128, 公开)</p>
+<p>​       非对称加密：RSA,ECC,SM2,认证和签名</p>
+<p>​       散列算法：MD5(128位)，SHA，SM3</p>
+<h2>身份认证</h2>
+<p>​       认证，也就是身份识别和认证。包括对内认证和对外认证。</p>
+<p>​       对外认证其实就是应用的登录注册模块，面向用户进行认证。用到之前提到的“你知道，有，是什么”。</p>
+<p>​           会因为管理的疏忽，导致大问题。主要有：无认证和弱密码。</p>
+<p>​       对内认证，服务器的登录，数据库的登录，Git的登录，各种内部管理后台的登录。</p>
+<p>​           会因为管理的疏忽，导致大问题。主要有：无认证和弱密码。</p>
+<p>​       单点登录时解决身份认证问题的关键，如何对账号进行统一的管理       </p>
+<p>​       CAS流程（集中式认证服务）：开源的单点登录框架，有一个认证中心（微信登录）。衍生出：JWT,OAuth,OpenID。</p>
+<h2>访问控制</h2>
+<p>​       通过身份认证只能确认用户的身份，而没有对用户的操作和访问行为进行把控。这是授权和审计的任务。</p>
+<p>​       访问控制模型：主体，客体，请求</p>
+<p>​       常见的访问控制机制：DAC，role-BAC，rule-BAC，MAC。</p>
+<h2>XSS</h2>
+<p>​       反射型，DOM型：前后端一体，前后端分离。</p>
+<p>​       存储型</p>
+<p>​       后果：窃取Cookie（同源策略），未授权操作，按键记录和钓鱼。</p>
+<p>​       要在输出的位置进行验证。CSP（content security policy)</p>
+<p>​               </p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

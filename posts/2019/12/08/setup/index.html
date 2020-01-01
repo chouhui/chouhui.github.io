@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="php5.6安装： apt-get -y undate add-apt-repository ppa:ondrej/php apt-get -y update apt-get -y install php5.6 php5.6-mcrypt php5.6-mbstring php5.6-curl php5.6-cli php5.6-mysql php5.6-gd php5.6-xml...">
+        <meta name="keywords" content="DVWA">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>安装DVWA - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">安装DVWA</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-12-08, 分类:  <a href="/category/dvwa.html">Dvwa</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/dvwa.html">DVWA</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>php5.6安装：</p>
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="o">-</span><span class="n">y</span> <span class="n">undate</span>
+<span class="k">add</span><span class="o">-</span><span class="n">apt</span><span class="o">-</span><span class="n">repository</span> <span class="n">ppa</span><span class="p">:</span><span class="n">ondrej</span><span class="o">/</span><span class="n">php</span>
+<span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="o">-</span><span class="n">y</span> <span class="k">update</span>
+<span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">mcrypt</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">mbstring</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">curl</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">cli</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">mysql</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">gd</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">xml</span> <span class="n">php5</span><span class="p">.</span><span class="mi">6</span><span class="o">-</span><span class="n">fpm</span>
+</pre></div>
+
+
+<p>出现的语言错误：</p>
+<div class="highlight"><pre><span></span><span class="x">sudo apt install -y language-pack-en-base</span>
+<span class="x">sudo locale-gen en_US.UTF-8</span>
+<span class="x">export LANG=en_US.UTF-8</span>
+<span class="x">export LC_ALL=en_US.UTF-8       </span>
+</pre></div>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

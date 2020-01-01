@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="生成CA证书及服务端证书并上传 myCA signedcerts private 要开启https服务，大致上需要3个步骤 首先生成CA根证书和私钥，私钥对服务器的请求签名，证书传给用户（浏览器）来验证服务器传输的那个签名是不是这个CA认证的。 在myCA目录下echo &#39;01&#39; &gt; serial &amp;&amp; touch index.txt 准备caconfig.cnf，在下面。 export...">
+        <meta name="keywords" content="CA">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>生成CA证书及服务端证书并上传 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">生成CA证书及服务端证书并上传</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-10-01, 分类:  <a href="/category/tutorial.html">Tutorial</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/ca.html">CA</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>生成CA证书及服务端证书并上传</h1>
+<blockquote>
+<p>myCA</p>
+<blockquote>
+<p>signedcerts</p>
+<p>private</p>
+</blockquote>
+</blockquote>
+<p>要开启https服务，大致上需要3个步骤</p>
+<h2>首先生成CA根证书和私钥，私钥对服务器的请求签名，证书传给用户（浏览器）来验证服务器传输的那个签名是不是这个CA认证的。</h2>
+<ol>
+<li>
+<p>在myCA目录下<code>echo '01' &gt; serial &amp;&amp; touch index.txt</code></p>
+</li>
+<li>
+<p>准备caconfig.cnf，在下面。</p>
+</li>
+<li>
+<p><code>export OPENSSL_CONF=~/myCA/caconfig.cnf</code></p>
+</li>
+<li>
+<p><code>openssl req -x509 -newkey rsa:2048 -out caret.pem -outform PEM -days 1825</code></p>
+</li>
+</ol>
+<p>​    参数 </p>
+<p>​      req 产生一个证书请求或CA根证书 </p>
+<p>​    --- x509产生一个自签证书，而不是一个证书请求。</p>
+<p>​    -newkey 一对公私钥，指定为rsa2048bits</p>
+<div class="highlight"><pre><span></span><span class="c1"># My sample caconfig.cnf file.</span>
+<span class="c1">#</span>
+<span class="c1"># Default configuration to use when one is not provided on the command line.</span>
+<span class="c1">#</span>
+<span class="o">[</span> ca <span class="o">]</span>
+<span class="nv">default_ca</span>      <span class="o">=</span> local_ca
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Default location of directories and files needed to generate certificates.</span>
+<span class="c1">#</span>
+<span class="o">[</span> local_ca <span class="o">]</span>
+<span class="nv">dir</span>             <span class="o">=</span> /home/&lt;username&gt;/myCA
+<span class="nv">certificate</span>     <span class="o">=</span> <span class="nv">$dir</span>/cacert.pem
+<span class="nv">database</span>        <span class="o">=</span> <span class="nv">$dir</span>/index.txt
+<span class="nv">new_certs_dir</span>   <span class="o">=</span> <span class="nv">$dir</span>/signedcerts
+<span class="nv">private_key</span>     <span class="o">=</span> <span class="nv">$dir</span>/private/cakey.pem
+<span class="nv">serial</span>          <span class="o">=</span> <span class="nv">$dir</span>/serial
+<span class="c1">#       </span>
+<span class="c1">#</span>
+<span class="c1"># Default expiration and encryption policies for certificates.</span>
+<span class="c1">#</span>
+<span class="nv">default_crl_days</span>        <span class="o">=</span> <span class="m">365</span>
+<span class="nv">default_days</span>            <span class="o">=</span> <span class="m">1825</span>
+<span class="nv">default_md</span>              <span class="o">=</span> sha1
+<span class="c1">#       </span>
+<span class="nv">policy</span>          <span class="o">=</span> local_ca_policy
+<span class="nv">x509_extensions</span> <span class="o">=</span> local_ca_extensions
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Copy extensions specified in the certificate request</span>
+<span class="c1">#</span>
+<span class="nv">copy_extensions</span> <span class="o">=</span> copy
+<span class="c1">#       </span>
+<span class="c1">#</span>
+<span class="c1"># Default policy to use when generating server certificates.  The following</span>
+<span class="c1"># fields must be defined in the server certificate.</span>
+<span class="c1">#</span>
+<span class="o">[</span> local_ca_policy <span class="o">]</span>
+<span class="nv">commonName</span>              <span class="o">=</span> supplied
+<span class="nv">stateOrProvinceName</span>     <span class="o">=</span> supplied
+<span class="nv">countryName</span>             <span class="o">=</span> supplied
+<span class="nv">emailAddress</span>            <span class="o">=</span> supplied
+<span class="nv">organizationName</span>        <span class="o">=</span> supplied
+<span class="nv">organizationalUnitName</span>  <span class="o">=</span> supplied
+<span class="c1">#       </span>
+<span class="c1">#</span>
+<span class="c1"># x509 extensions to use when generating server certificates.</span>
+<span class="c1">#</span>
+<span class="o">[</span> local_ca_extensions <span class="o">]</span>
+<span class="nv">basicConstraints</span>        <span class="o">=</span> CA:false
+<span class="c1">#       </span>
+<span class="c1">#</span>
+<span class="c1"># The default root certificate generation policy.</span>
+<span class="c1">#</span>
+<span class="o">[</span> req <span class="o">]</span>
+<span class="nv">default_bits</span>    <span class="o">=</span> <span class="m">2048</span>
+<span class="nv">default_keyfile</span> <span class="o">=</span> /home/&lt;username&gt;/myCA/private/cakey.pem
+<span class="nv">default_md</span>      <span class="o">=</span> sha1
+<span class="c1">#       </span>
+<span class="nv">prompt</span>                  <span class="o">=</span> no
+<span class="nv">distinguished_name</span>      <span class="o">=</span> root_ca_distinguished_name
+<span class="nv">x509_extensions</span>         <span class="o">=</span> root_ca_extensions
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Root Certificate Authority distinguished name.  Change these fields to match</span>
+<span class="c1"># your local environment!</span>
+<span class="c1">#</span>
+<span class="o">[</span> root_ca_distinguished_name <span class="o">]</span>
+<span class="nv">commonName</span>              <span class="o">=</span> MyOwn Root Certificate Authority
+<span class="nv">stateOrProvinceName</span>     <span class="o">=</span> NC
+<span class="nv">countryName</span>             <span class="o">=</span> US
+<span class="nv">emailAddress</span>            <span class="o">=</span> root@tradeshowhell.com
+<span class="nv">organizationName</span>        <span class="o">=</span> Trade Show Hell
+<span class="nv">organizationalUnitName</span>  <span class="o">=</span> IT Department
+<span class="c1">#       </span>
+<span class="o">[</span> root_ca_extensions <span class="o">]</span>
+<span class="nv">basicConstraints</span>        <span class="o">=</span> CA:true
+</pre></div>
+
+
+<h3>然后生成临时的服务器tempkey.pem和tempreqs.pem，在切换成caconfig.cnf，用这个配置文件对tempreq.pem签名，生成服务器的证书，server_crt.pem。tempkey.pem在转换成serverkey.pem。</h3>
+<ol>
+<li>
+<p><code>export OPENSSL_CONF=~/myCA/exampleserver.cnf</code></p>
+</li>
+<li>
+<p><code>openssl req -newkey rsa:1024 -keyout tempkey.pem -keyform PEM -out tempera.pem -outform PEM</code></p>
+</li>
+<li>
+<p><code>openssl rsa &lt;temkey.pem&gt; server_key.pem</code>  把临时密钥换成未加密的密钥。</p>
+</li>
+<li>
+<p><code>export OPENSSL_CONF=~/myCA/caconfig.cng</code></p>
+</li>
+<li>
+<p><code>openssl ca -in tempers.pem -out server_crt.pem</code></p>
+<p>ca 用来对证书请求签名</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># exampleserver.cnf</span>
+<span class="c1">#</span>
+
+<span class="o">[</span> req <span class="o">]</span>
+<span class="nv">prompt</span>                  <span class="o">=</span> no
+<span class="nv">distinguished_name</span>      <span class="o">=</span> server_distinguished_name
+<span class="nv">req_extensions</span>          <span class="o">=</span> v3_req
+
+<span class="o">[</span> server_distinguished_name <span class="o">]</span>
+<span class="nv">commonName</span>              <span class="o">=</span> tradeshowhell.com
+<span class="nv">stateOrProvinceName</span>     <span class="o">=</span> NC
+<span class="nv">countryName</span>             <span class="o">=</span> US
+<span class="nv">emailAddress</span>            <span class="o">=</span> root@tradeshowhell.com
+<span class="nv">organizationName</span>        <span class="o">=</span> My Organization Name
+<span class="nv">organizationalUnitName</span>  <span class="o">=</span> Subunit of My Large Organization
+
+<span class="o">[</span> v3_req <span class="o">]</span>
+<span class="nv">basicConstraints</span>        <span class="o">=</span> CA:FALSE
+<span class="nv">keyUsage</span>                <span class="o">=</span> nonRepudiation, digitalSignature, keyEncipherment
+<span class="nv">subjectAltName</span>          <span class="o">=</span> @alt_names
+
+<span class="o">[</span> alt_names <span class="o">]</span>
+DNS.0                   <span class="o">=</span> tradeshowhell.com
+DNS.1                   <span class="o">=</span> alt.tradeshowhell.com
+</pre></div>
+
+
+<h3>最后需要的准备都做好了，将server_crt.pem和server_key.pem放到指定位置。CA证书加到浏览器中。需要注意的是这样做还是会失败，不过报错信息变了，还要手动确认这个证书。</h3>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="/x00截断 0x00是一种十六进制表示方法，是ascii码为0的字符，在有些函数处理时，会把这个字符当作结束符。这是一个被广泛用于字符串处理函数的保留字符，在各种不同的业务逻辑中都可能出现问题。 文件上传漏洞中的00截断一般要在目录后面加截断0x00，%00，一般不是在文件名中加。因为程序中检测的是文件名的后缀名，如果后缀合法则拼接路径和文件名。 为什么有的放%00...">
+        <meta name="keywords" content="/x00">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>x00截断 - Czj's 博客</title>
+
+        <!-- Stylesheets -->
+        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/abc.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="/">MyBlog</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="/">首页</a>
+                                <a href="/categories.html">分类</a>
+                                <a href="/tags.html">标签</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">x00截断</h1>
+                      <p class="header-date">By <a href="/author/czj.html">Czj</a>, 2019-12-19, 分类:  <a href="/category/summary.html">Summary</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="/tag/x00.html">/x00</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>/x00截断</h1>
+<p>0x00是一种十六进制表示方法，是ascii码为0的字符，在有些函数处理时，会把这个字符当作结束符。这是一个被广泛用于字符串处理函数的保留字符，在各种不同的业务逻辑中都可能出现问题。</p>
+<p>文件上传漏洞中的00截断一般要在目录后面加截断0x00，%00，一般不是在文件名中加。因为程序中检测的是文件名的后缀名，如果后缀合法则拼接路径和文件名。</p>
+<p>为什么有的放%00 有的放%00（urldecode。[]），上传的表单中有一个enctype属性，并且enctype="multipart/form-data"（不对表中数据进行编码），path大多数是存放在表单中，因此需要在数据包中进行URLdecode操作，便车个字符串结束符号。</p>
+<p>有的path也可以存放在URL或cookie中，而在提交数据的时候浏览器会对数据做一次urldecode操作</p>
+<p><img alt="image-20191219213842428" src="/Users/cyh/virtualenvs/pelican/content/images/image-20191219213842428.png"></p>
+<p>ereg — 正则表达式匹配</p>
+<p><code>ereg ( string $pattern , string $string [, array &amp;$regs ] ) : int</code></p>
+<p>以区分大小写的方式在 <code>string</code> 中寻找与给定的正则表达式 <code>pattern</code> 所匹配的子串。</p>
+<p>%00 在数据包中以 253030 的16进制数传输，返回来的数据包中是 00 的16进制。也就是说不是_GET截断了字符串，是ereg函数。</p>
+<p>这里ereg有两个漏洞：</p>
+<ol>
+<li>
+<p>%00截断及遇到%00则默认为字符串的结束</p>
+</li>
+<li>
+<p>当ntf为数组时它的返回值不是FALSE</p>
+</li>
+</ol>
+<p>这第二种nctf[]=1 ，在网站上可以实现，在本地不行，网上会报一个warning，本地报error，本地是5.6.40版本。</p>
+<p>第一种。nctf=1%00%23biubiubiu，一定要把#写成%23，不然浏览器要把#当成锚点，不传后面的东西到服务器上。</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/archives.html">Archives</a></li>
+                            <li><a href="/tags.html">Tags</a></li>
+                            <li><a href="/authors.html">Authors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; blogname 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
